@@ -3,7 +3,7 @@
 <body>
     <select onchange="location = this.value;" class="form-select" size="1" aria-label="select example">
         <option selected>Choose table</option>
-        <option value="{{ url_for('admin.users_table',user_id=0) }}">Users</option>
+        <option value="{{ url_for('admin.users_table') }}">Users</option>
         <option value="#">Couriers</option>
         <option value="#">Products</option>
         <option value="#">Orders</option>
