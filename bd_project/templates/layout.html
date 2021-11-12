@@ -34,7 +34,12 @@
                     <a class="nav-item nav-link" href="#">About</a>
                 </div>
                 <!-- Navbar Right Side -->
-                {% if current_user.is_authenticated %}
+                {% if current_user.is_authenticated and current_user.email == 'admin@blog.com' %}
+                <div class="navbar-nav ms-auto">
+                    <a class="nav-item nav-link" href="{{ url_for('admin.admin_page') }}">Admin page</a>
+                    <a class="nav-item nav-link" href="{{ url_for('users.logout') }}">Logout</a>
+                </div>
+                {% elif current_user.is_authenticated %}
                 <div class="navbar-nav ms-auto">
                     <a class="nav-item nav-link" href="{{ url_for('users.account') }}">Account</a>
                     <a class="nav-item nav-link" href="{{ url_for('users.logout') }}">Logout</a>
@@ -63,6 +68,7 @@
             {% endwith %}
             {% block content %}{% endblock %}
         </div>
+        {% if current_user.is_authenticated and current_user.email != 'admin@blog.com' %}
         <div class="col-md-3">
             <div class="content-section">
                 <h3>Your cart:</h3>
@@ -74,6 +80,7 @@
                 </ul>
             </div>
         </div>
+        {% endif %}
     </div>
 </main>
 

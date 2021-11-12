@@ -20,8 +20,10 @@ def create_app(config_class=Config):
 
     from bd_project.main.routes import main
     from bd_project.users.routes import users
+    from bd_project.admin.routes import admin
     app.register_blueprint(main)
     app.register_blueprint(users)
+    app.register_blueprint(admin)
 
     return app
 

@@ -1,6 +1,5 @@
 from flask import (Blueprint, url_for, redirect, flash, render_template, request)
 from flask_login import current_user, login_user, logout_user, login_required
-from playhouse.flask_utils import get_object_or_404, object_list
 from bd_project import bcrypt
 from bd_project.models import User
 from bd_project.users.forms import RegistrationForm, LoginForm, UpdateAccountForm

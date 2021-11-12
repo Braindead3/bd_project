@@ -25,7 +25,7 @@ class User(BaseModel, UserMixin):
     password = CharField(max_length=60, null=False)
 
     def __repr__(self):
-        return f'User("{self.username}","{self.email}","{self.image_file}")'
+        return f'User("{self.username}","{self.email},"{self.phone},"{self.address}")'
 
     class Meta:
         db_table = 'Users'
