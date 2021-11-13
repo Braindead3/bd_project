@@ -39,11 +39,11 @@ products = [
         'weight': 650,
     },
     {
-            'product_id': 2,
-            'product_name': 'meat',
-            'product_price': 25,
-            'description': 'some meat',
-            'weight': 650,
+        'product_id': 2,
+        'product_name': 'meat',
+        'product_price': 25,
+        'description': 'some meat',
+        'weight': 650,
     }
 ]
 
@@ -52,3 +52,8 @@ products = [
 @main.route('/home')
 def home():
     return render_template('home.html', title='Home page', products=products)
+
+
+@main.route('/admin_tables')
+def admin_page():
+    return render_template('admin_pages/admin.html', title='admin_users_table')

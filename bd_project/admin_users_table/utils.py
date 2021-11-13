@@ -1,4 +1,4 @@
-from bd_project.admin.user_forms import AddUserForm, DeleteUserForm, UpdateUserForm
+from bd_project.admin_users_table.forms import AddUserForm, DeleteUserForm, UpdateUserForm
 from bd_project.models import User
 from bd_project import bcrypt
 

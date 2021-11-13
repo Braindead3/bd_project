@@ -36,7 +36,7 @@
                 <!-- Navbar Right Side -->
                 {% if current_user.is_authenticated and current_user.email == 'admin@blog.com' %}
                 <div class="navbar-nav ms-auto">
-                    <a class="nav-item nav-link" href="{{ url_for('admin.admin_page') }}">Admin page</a>
+                    <a class="nav-item nav-link" href="{{ url_for('main.admin_page') }}">Admin page</a>
                     <a class="nav-item nav-link" href="{{ url_for('users.logout') }}">Logout</a>
                 </div>
                 {% elif current_user.is_authenticated %}

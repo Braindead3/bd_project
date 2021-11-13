@@ -1,0 +1,150 @@
+{% extends "admin_pages/admin.html" %}
+{% block table %}
+<body>
+<table class="table table">
+    <thead>
+    <tr>
+        <th scope="col">name</th>
+        <th scope="col">phone</th>
+        <th scope="col">address</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for courier in couriers %}
+    <tr>
+        <th scope="row">{{ courier.name }}</th>
+        <td>{{ courier.phone }}</td>
+        <td>{{ courier.address }}</td>
+    </tr>
+    {% endfor %}
+    <tr>
+    </tbody>
+</table>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <form method="post" action="{{ url_for('admin_couriers_table.courier_creation') }}">
+                {{ add_form.hidden_tag() }}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Add Courier</legend>
+                    <div class="form-group">
+                        {{ add_form.name_add.label(class="form-control-label") }}
+                        {% if add_form.name_add.errors %}
+                        {{ add_form.name_add(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in add_form.name_add.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        {{ add_form.name_add(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ add_form.phone_add.label(class="form-control-label") }}
+                        {% if add_form.phone_add.errors %}
+                        {{ add_form.phone_add(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in add_form.phone_add.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        {{ add_form.phone_add(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ add_form.address_add.label(class="form-control-label") }}
+                        {% if add_form.address_add.errors %}
+                        {{ add_form.address_add(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in add_form.address_add.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        {{ add_form.address_add(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group pt-3">
+                        {{ add_form.submit_add(class="btn btn-outline-info") }}
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <div class="col">
+            <form method="post" action="{{ url_for('admin_couriers_table.courier_removing') }}">
+                {{ delete_form.hidden_tag() }}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Delete Courier</legend>
+                    <div class="form-group">
+                        {{ delete_form.select_del.label(class="form-control-label") }}
+                        {{ delete_form.select_del(class="form-select") }}
+                    </div>
+                    <div class="form-group pt-3">
+                        {{ delete_form.del_submit(class="btn btn-outline-info") }}
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+         <div class="col">
+            <form method="post" action="{{ url_for('admin_couriers_table.courier_updating',courier_id=0) }}">
+                {{ update_form.hidden_tag() }}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Update Courier</legend>
+                    <label class="form-control-label">Select Courier</label>
+                    <select class="form-select " onchange="location = this.value;" name="forma">
+                        <option selected>Selected({{ select_courier }})</option>
+                        {% for courier in couriers %}
+                        <option value="{{ url_for('admin_couriers_table.courier_updating', courier_id=courier.id) }}">{{ courier.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="form-group">
+                        {{ update_form.name_update.label(class="form-control-label") }}
+                        {% if update_form.name_update.errors %}
+                        {{ update_form.name_update(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in update_form.name_update.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        {{ update_form.name_update(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ update_form.phone_update.label(class="form-control-label") }}
+                        {% if update_form.phone_update.errors %}
+                        {{ update_form.phone_update(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in update_form.phone_update.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        {{ update_form.phone_update(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ update_form.address_update.label(class="form-control-label") }}
+                        {% if update_form.address_update.errors %}
+                        {{ update_form.address_update(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in update_form.address_update.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        {{ update_form.address_update(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group pt-3">
+                        {{ update_form.submit_update(class="btn btn-outline-info") }}
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+{% endblock table %}
