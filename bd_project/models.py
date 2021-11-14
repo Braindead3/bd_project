@@ -48,9 +48,10 @@ class Product(BaseModel):
     price = DoubleField(null=False)
     description = TextField(null=False)
     weight = IntegerField(null=False)
+    image = CharField(null=False)
 
     def __repr__(self):
-        return f'Product("{self.name}","{self.price}","{self.description},{self.weight}")'
+        return f'Product("{self.name}","{self.price}","{self.description},{self.weight},{self.image}")'
 
     class Meta:
         db_table = 'Products'

@@ -1,6 +1,7 @@
 {% extends "admin_pages/admin.html" %}
 {% block table %}
 <body>
+<h1>Couriers</h1>
 <table class="table table">
     <thead>
     <tr>
@@ -88,13 +89,13 @@
             </form>
         </div>
          <div class="col">
-            <form method="post" action="{{ url_for('admin_couriers_table.courier_updating',courier_id=0) }}">
+            <form method="post" action="">
                 {{ update_form.hidden_tag() }}
                 <fieldset class="form-group">
                     <legend class="border-bottom mb-4">Update Courier</legend>
                     <label class="form-control-label">Select Courier</label>
                     <select class="form-select " onchange="location = this.value;" name="forma">
-                        <option selected>Selected({{ select_courier }})</option>
+                        <option selected>Selected: {{ select_courier }}</option>
                         {% for courier in couriers %}
                         <option value="{{ url_for('admin_couriers_table.courier_updating', courier_id=courier.id) }}">{{ courier.name }}</option>
                         {% endfor %}

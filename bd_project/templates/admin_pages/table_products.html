@@ -1,0 +1,204 @@
+{% extends "admin_pages/admin.html" %}
+{% block table %}
+<body>
+<h1>Products</h1>
+<table class="table table">
+    <thead>
+    <tr>
+        <th scope="col">name</th>
+        <th scope="col">price</th>
+        <th scope="col">description</th>
+        <th scope="col">weight</th>
+        <th scope="col">image</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for product in products %}
+    <tr>
+        <th scope="row">{{ product.name }}</th>
+        <td>{{ product.price }}</td>
+        <td>{{ product.description }}</td>
+        <td>{{ product.weight }}</td>
+        <td><img class="rounded-circle image-size" src="{{ url_for('static',filename='food_pics/' + product.image) }}"></td>
+    </tr>
+    {% endfor %}
+    <tr>
+    </tbody>
+</table>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <form method="post" action="{{ url_for('admin_products_table.product_creation') }} "
+                  enctype="multipart/form-data">
+                {{ add_form.hidden_tag() }}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Add Product</legend>
+                    <div class="form-group">
+                        {{ add_form.name_add.label(class="form-control-label") }}
+                        {% if add_form.name_add.errors %}
+                        {{ add_form.name_add(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in add_form.name_add.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        {{ add_form.name_add(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ add_form.price_add.label(class="form-control-label") }}
+                        {% if add_form.price_add.errors %}
+                        {{ add_form.price_add(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in add_form.price_add.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        {{ add_form.price_add(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ add_form.description_add.label(class="form-control-label") }}
+                        {% if add_form.description_add.errors %}
+                        {{ add_form.description_add(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in add_form.description_add.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        {{ add_form.description_add(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ add_form.weight_add.label(class="form-control-label") }}
+                        {% if add_form.weight_add.errors %}
+                        {{ add_form.weight_add(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in add_form.weight_add.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        {{ add_form.weight_add(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ add_form.image_add.label(class="form-control-label") }}
+                        {{ add_form.image_add(class="form-control-file form-control form-control-lg") }}
+                        {% if add_form.image_add.errors %}
+                        {% for error in add_form.image_add.errors %}
+                        <span class="text-danger">{{ error }}</span><br>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="form-group pt-3">
+                        {{ add_form.submit_add(class="btn btn-outline-info") }}
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <div class="col">
+            <form method="post" action="{{ url_for('admin_products_table.product_removing') }} "
+                  enctype="multipart/form-data">
+                {{ delete_form.hidden_tag() }}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Delete Product</legend>
+                    <div class="form-group">
+                        {{ delete_form.select_delete.label(class="form-control-label") }}
+                        {{ delete_form.select_delete(class="form-select") }}
+                    </div>
+                    <div class="form-group pt-3">
+                        {{ delete_form.submit_delete(class="btn btn-outline-info") }}
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <div class="col">
+            <form method="post" action=""
+                  enctype="multipart/form-data">
+                {{ update_form.hidden_tag() }}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Update Product</legend>
+                    <label class="form-control-label">Select Product</label>
+                    <select class="form-select " onchange="location = this.value;" name="forma">
+                        <option selected>Selected: {{ selected_product }}</option>
+                        {% for product in products %}
+                        <option value="{{ url_for('admin_products_table.product_updating', product_id=product.id) }}">{{
+                            product.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                    <div class="form-group">
+                        {{ update_form.name_update.label(class="form-control-label") }}
+                        {% if update_form.name_update.errors %}
+                        {{ update_form.name_update(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in update_form.name_update.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        {{ update_form.name_update(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ update_form.price_update.label(class="form-control-label") }}
+                        {% if update_form.price_update.errors %}
+                        {{ update_form.price_update(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in update_form.price_update.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        {{ update_form.price_update(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ update_form.description_update.label(class="form-control-label") }}
+                        {% if update_form.description_update.errors %}
+                        {{ update_form.description_update(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in update_form.description_update.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        {{ update_form.description_update(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ update_form.weight_update.label(class="form-control-label") }}
+                        {% if update_form.weight_update.errors %}
+                        {{ update_form.weight_update(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in update_form.weight_update.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        {{ update_form.weight_update(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ update_form.image_update.label(class="form-control-label") }}
+                        {{ update_form.image_update(class="form-control-file form-control form-control-lg") }}
+                        {% if update_form.image_update.errors %}
+                        {% for error in update_form.image_update.errors %}
+                        <span class="text-danger">{{ error }}</span><br>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="form-group pt-3">
+                        {{ update_form.submit_update(class="btn btn-outline-info") }}
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+{% endblock table %}

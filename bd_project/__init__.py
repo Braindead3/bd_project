@@ -22,10 +22,12 @@ def create_app(config_class=Config):
     from bd_project.users.routes import users
     from bd_project.admin_users_table.routes import admin_users_table
     from bd_project.admin_couriers_table.routes import admin_couriers_table
+    from bd_project.admin_products_table.routes import admin_products_table
     app.register_blueprint(main)
     app.register_blueprint(users)
     app.register_blueprint(admin_users_table)
     app.register_blueprint(admin_couriers_table)
+    app.register_blueprint(admin_products_table)
 
     return app
 

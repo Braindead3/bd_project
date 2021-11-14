@@ -1,6 +1,7 @@
 {% extends "admin_pages/admin.html" %}
 {% block table %}
 <body>
+<h1>Users</h1>
 <table class="table table">
     <thead>
     <tr>
@@ -116,13 +117,13 @@
             </form>
         </div>
         <div class="col">
-            <form method="post" action="{{ url_for('admin_users_table.user_updating',user_id=0) }}">
+            <form method="post" action="">
                 {{ update_form.hidden_tag() }}
                 <fieldset class="form-group">
                     <legend class="border-bottom mb-4">Update User</legend>
                     <label class="form-control-label">Select User</label>
                     <select class="form-select " onchange="location = this.value;" name="forma">
-                        <option selected>{{ selected_username }}</option>
+                        <option selected>Selected: {{ selected_username }}</option>
                         {% for user in users %}
                         <option value="{{ url_for('admin_users_table.user_updating', user_id=user.id) }}">{{ user.username }}</option>
                         {% endfor %}

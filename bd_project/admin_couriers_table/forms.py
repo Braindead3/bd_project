@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+from wtforms import StringField, PasswordField, SubmitField, SelectField
+from wtforms.validators import DataRequired, Length, ValidationError
 from bd_project.models import Courier
 import phonenumbers
 
