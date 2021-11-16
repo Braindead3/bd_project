@@ -1,7 +1,7 @@
 from flask import (Blueprint, url_for, redirect, flash, render_template, request)
 from flask_login import current_user, login_user, logout_user, login_required
 from bd_project import bcrypt
-from bd_project.models import User
+from bd_project.models import User, Product
 from bd_project.users.forms import RegistrationForm, LoginForm, UpdateAccountForm
 
 users = Blueprint('users', __name__)
@@ -64,3 +64,18 @@ def account():
         form.phone.data = current_user.phone
         form.address.data = current_user.address
     return render_template('account.html', title='Account', form=form)
+
+
+@users.route('/add_to_cart?<int:product_id>')
+@login_required
+def add_to_cart(product_id):
+    product = Product.get(Product.id == product_id)
+    if product_id in current_user.order_products:
+        current_user.order_products.get(product_id)['amount'] = current_user.order_products.get(product_id).get(
+            'amount') + 1
+    else:
+        current_user.order_products[product_id] = {
+            'product': product,
+            'amount': 1
+        }
+    return redirect(url_for('main.home'))

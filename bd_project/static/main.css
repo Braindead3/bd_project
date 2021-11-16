@@ -68,9 +68,16 @@ a.article-title:hover {
   vertical-align: middle;
 }
 
-.account-img {
-  height: 125px;
-  width: 125px;
+.food-img {
+  height: 180px;
+  width: 180px;
+  margin-right: 20px;
+  margin-bottom: 16px;
+}
+
+.food-cart-img {
+  height: 50px;
+  width: 50px;
   margin-right: 20px;
   margin-bottom: 16px;
 }

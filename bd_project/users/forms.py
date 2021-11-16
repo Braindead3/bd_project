@@ -35,14 +35,18 @@ class RegistrationForm(FlaskForm):
 
     @staticmethod
     def validate_phone(self, phone):
-        if len(phone.data) > 16:
-            raise ValidationError('Invalid phone number.')
-        try:
-            input_number = phonenumbers.parse(phone.data)
-            if not (phonenumbers.is_valid_number(input_number)):
+        user = User.get_or_none(User.phone == phone.data)
+        if user:
+            raise ValidationError('That phone is taken. Please choose a different one.')
+        else:
+            if len(phone.data) > 16:
                 raise ValidationError('Invalid phone number.')
-        except:
-            raise ValidationError('Invalid phone number.')
+            try:
+                input_number = phonenumbers.parse(phone.data)
+                if not (phonenumbers.is_valid_number(input_number)):
+                    raise ValidationError('Invalid phone number.')
+            except:
+                raise ValidationError('Invalid phone number.')
 
 
 class LoginForm(FlaskForm):

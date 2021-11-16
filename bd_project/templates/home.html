@@ -3,17 +3,31 @@
 <div class="container">
     <div class="row g-3">
         {% for product in products %}
-            <div class="col-12 col-md-6 col-lg-4">
-                <div class="card" style="width: 100%;">
-                    <img src="{{ url_for('static', filename ='food_pics/' + 'default_food.jpg') }}" class="card-img-top"
-                         alt="None">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ product.product_name }}</h5>
-                        <p class="card-text">{{ product.description }}</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+        <div class="col-12 col-md-9 col-lg-3">
+            <div class="card" style="width: 100%;">
+                {% if product.image %}
+                <img src="{{ url_for('static', filename ='food_pics/' + product.image) }}" class="card-img-top food-img"
+                     alt="None">
+                {% else %}
+                <img src="{{ url_for('static', filename ='food_pics/' + 'default_food.jpg') }}"
+                     class="card-img-top food-img"
+                     alt="None">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text">{{ product.description }}</p>
+                    <div class="row">
+                        <div class="col-6">
+                            <h6 class="card-subtitle mb-2 text-muted">{{ product.price }} BYN</h6>
+                        </div>
+                         <div class="col-6">
+                            <h6 class="card-subtitle mb-2 text-muted">{{ product.weight }} gr.</h6>
+                        </div>
                     </div>
+                    <a href="{{ url_for('users.add_to_cart',product_id=product.id) }}" class="btn btn-primary">Buy</a>
                 </div>
             </div>
+        </div>
         {% endfor %}
     </div>
 </div>

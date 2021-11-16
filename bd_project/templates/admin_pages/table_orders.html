@@ -1,0 +1,29 @@
+{% extends "admin_pages/admin.html" %}
+{% block table %}
+<body>
+<h1>Products</h1>
+<table class="table table">
+    <thead>
+    <tr>
+        <th scope="col">user</th>
+        <th scope="col">courier</th>
+        <th scope="col">address</th>
+        <th scope="col">time_creation</th>
+        <th scope="col">time_of_delivery</th>
+        <th scope="col">status</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for order in orders %}
+    <tr>
+        <th scope="row">{{ order.id }}</th>
+        <td>{{ order.courier_id }}</td>
+        <td>{{ order.description }}</td>
+        <td>{{ order.weight }}</td>
+        <td><img class="rounded-circle image-size" src="{{ url_for('static',filename='food_pics/' + product.image) }}"></td>
+    </tr>
+    {% endfor %}
+    <tr>
+    </tbody>
+</table>
+{% end block table %}
