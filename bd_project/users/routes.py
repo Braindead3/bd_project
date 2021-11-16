@@ -1,3 +1,5 @@
+import time
+
 from flask import (Blueprint, url_for, redirect, flash, render_template, request)
 from flask_login import current_user, login_user, logout_user, login_required
 from bd_project import bcrypt
@@ -69,6 +71,7 @@ def account():
 @users.route('/add_to_cart?<int:product_id>')
 @login_required
 def add_to_cart(product_id):
+    time.sleep(1)
     product = Product.get(Product.id == product_id)
     if product_id in current_user.order_products:
         current_user.order_products.get(product_id)['amount'] = current_user.order_products.get(product_id).get(
