@@ -23,7 +23,6 @@ class User(BaseModel, UserMixin):
     phone = CharField(max_length=15, unique=True, null=False)
     address = CharField(max_length=20, null=False)
     password = CharField(max_length=60, null=False)
-    order_products = {}
 
     def __repr__(self):
         return f'User("{self.username}","{self.email},"{self.phone},"{self.address}")'

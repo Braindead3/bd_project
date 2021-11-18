@@ -5,6 +5,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 from bd_project import bcrypt
 from bd_project.models import User, Product
 from bd_project.users.forms import RegistrationForm, LoginForm, UpdateAccountForm
+import json
 
 users = Blueprint('users', __name__)
 
@@ -71,14 +72,33 @@ def account():
 @users.route('/add_to_cart?<int:product_id>')
 @login_required
 def add_to_cart(product_id):
-    time.sleep(1)
     product = Product.get(Product.id == product_id)
-    if product_id in current_user.order_products:
-        current_user.order_products.get(product_id)['amount'] = current_user.order_products.get(product_id).get(
-            'amount') + 1
+    with open('ordered_products.json') as f:
+        order_products_by_users = json.load(f)
+    if f'{current_user.id}' in order_products_by_users:
+        for product_or in order_products_by_users.get(f'{current_user.id}'):
+            if f'{product_id}' in product_or:
+                product_or.get(f'{product_id}')['amount'] = product_or.get(f'{product_id}').get('amount') + 1
+                with open('ordered_products.json', 'w') as f:
+                    json.dump(order_products_by_users, f, indent=2)
+                return redirect(url_for('main.home'))
+        order_products_by_users[f'{current_user.id}'].append({
+            product_id:
+                {
+                    'product': product.name,
+                    'amount': 1,
+                    'price': product.price
+                }
+        })
     else:
-        current_user.order_products[product_id] = {
-            'product': product,
-            'amount': 1
-        }
+        order_products_by_users[current_user.id] = [{
+            product_id:
+                {
+                    'product': product.name,
+                    'amount': 1,
+                    'price': product.price
+                }
+        }]
+    with open('ordered_products.json', 'w') as f:
+        json.dump(order_products_by_users, f, indent=2)
     return redirect(url_for('main.home'))
