@@ -1,11 +1,10 @@
-import time
-
 from flask import (Blueprint, url_for, redirect, flash, render_template, request)
 from flask_login import current_user, login_user, logout_user, login_required
 from bd_project import bcrypt
-from bd_project.models import User, Product
-from bd_project.users.forms import RegistrationForm, LoginForm, UpdateAccountForm
+from bd_project.models import User, Product, Order, OrderList
+from bd_project.users.forms import RegistrationForm, LoginForm, UpdateAccountForm, OrderForm
 import json
+from datetime import datetime
 
 users = Blueprint('users', __name__)
 
@@ -69,6 +68,17 @@ def account():
     return render_template('account.html', title='Account', form=form)
 
 
+def add_product_to_order_dict(order_products_by_users, product_id, product):
+    order_products_by_users[f'{current_user.id}'].append({
+        product_id:
+            {
+                'product': product.name,
+                'amount': 1,
+                'price': product.price
+            }
+    })
+
+
 @users.route('/add_to_cart?<int:product_id>')
 @login_required
 def add_to_cart(product_id):
@@ -102,3 +112,61 @@ def add_to_cart(product_id):
     with open('ordered_products.json', 'w') as f:
         json.dump(order_products_by_users, f, indent=2)
     return redirect(url_for('main.home'))
+
+
+@users.route('/remove_from_cart?<int:product_id>')
+@login_required
+def remove_from_cart(product_id):
+    with open('ordered_products.json') as f:
+        order_products_by_users = json.load(f)
+    for product_or in order_products_by_users.get(f'{current_user.id}'):
+        if f'{product_id}' in product_or:
+            product_or.get(f'{product_id}')['amount'] = product_or.get(f'{product_id}').get('amount') - 1
+    with open('ordered_products.json', 'w') as f:
+        json.dump(order_products_by_users, f, indent=2)
+    return redirect(url_for('main.home'))
+
+
+@users.route('/clear_cart')
+@login_required
+def clear_cart():
+    with open('ordered_products.json') as f:
+        order_products_by_users = json.load(f)
+    order_products_by_users[f'{current_user.id}'] = []
+    with open('ordered_products.json', 'w') as f:
+        json.dump(order_products_by_users, f, indent=2)
+    return redirect(url_for('main.home'))
+
+
+@users.route('/order', methods=['GET', 'POST'])
+@login_required
+def add_order():
+    form = OrderForm()
+    order_products_by_current_user = None
+    with open('ordered_products.json', 'r') as f:
+        order_products_by_users = json.load(f)
+        order_products_by_current_user = order_products_by_users.get(f'{current_user.id}')
+    if form.validate_on_submit():
+        order = Order(user_id=current_user, address=form.address.data, time_creation=datetime.utcnow(),
+                      time_of_delivery=form.order_date.data)
+        order.save()
+        for products in order_products_by_current_user:
+            for pr_id, product in products.items():
+                order_product = OrderList(order_id=order.id, product_id=Product.get(Product.id == pr_id),
+                                          amount=product.get('amount'))
+                order_product.save()
+        order_products_by_users[f'{current_user.id}'] = []
+        with open('ordered_products.json', 'w') as f:
+            json.dump(order_products_by_users, f, indent=2)
+        flash('Your order is accepted', 'success')
+        return redirect(url_for('main.home'))
+    elif request.method == 'GET':
+        form.address.data = current_user.address
+    return render_template('order.html', order_products=order_products_by_current_user, form=form)
+
+
+@users.route('/current_orders', methods=['GET'])
+@login_required
+def current_orders():
+    orders = current_user.orders
+    pass

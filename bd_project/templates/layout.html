@@ -41,6 +41,7 @@
                 </div>
                 {% elif current_user.is_authenticated %}
                 <div class="navbar-nav ms-auto">
+                    <a class="nav-item nav-link" href="{{ url_for('users.current_orders') }}">Current orders</a>
                     <a class="nav-item nav-link" href="{{ url_for('users.account') }}">Account</a>
                     <a class="nav-item nav-link" href="{{ url_for('users.logout') }}">Logout</a>
                 </div>
@@ -74,21 +75,45 @@
             <div class="content-section">
                 <h3>Your cart:</h3>
                 {% for products in order_products %}
-                {% for _,product in products.items() %}
-                <div class="card" style="width: 100%; height:100px;">
+                {% for pr_id,product in products.items() %}
+                <div class="card mt-1" style="width: 100%; height:100px;">
                     <div class="card-body">
-                        <h5 class="card-title">Amount: {{ product.get('amount') }}</h5>
-                        <h5 class="card-title">{{ product.get("product") }}</h5>
+                        <div class="row card-title">
+                            <div class="col-6">
+                                <h5>{{ product.get("product") }}</h5>
+                            </div>
+                            <div class="col-6">
+                                <h5>In cart: {{ product.get('amount') }}</h5>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-6">
-                                <h6 class="card-subtitle mb-2 text-muted">{{ product.get("price") *
+                                <h6 class="card-subtitle text-muted">{{ product.get("price") *
                                     product.get('amount') }} BYN</h6>
+                            </div>
+                            <div class="col-3">
+                                <a class="card-subtitle btn-outline-dark btn"
+                                   href="{{ url_for('users.remove_from_cart',product_id=pr_id) }}">-</a>
+                            </div>
+                            <div class="col-3">
+                                <a class="card-subtitle btn-outline-dark btn"
+                                   href="{{ url_for('users.add_to_cart',product_id=pr_id) }}">+</a>
                             </div>
                         </div>
                     </div>
                 </div>
                 {% endfor %}
                 {% endfor %}
+            </div>
+            <div class="row">
+                <div class="col-7">
+                    <a href="{{ url_for('users.add_order') }}" class="card-subtitle btn-outline-dark btn">Create
+                        order</a>
+                </div>
+                <div class="col-5">
+                    <a href="{{ url_for('users.clear_cart') }}" class="card-subtitle btn-outline-dark btn">Clear
+                        cart</a>
+                </div>
             </div>
         </div>
         {% else %}
@@ -100,7 +125,7 @@
         </div>
         {% endif %}
         {% endif %}
-        </div>
+    </div>
 </main>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

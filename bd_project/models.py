@@ -59,7 +59,7 @@ class Product(BaseModel):
 
 class Order(BaseModel):
     user_id = ForeignKeyField(User, backref='orders', null=False)
-    courier_id = ForeignKeyField(Courier, backref='orders', null=False)
+    courier_id = ForeignKeyField(Courier, backref='orders', null=True)
     address = CharField(max_length=20, null=False)
     time_creation = DateTimeField(default=datetime.utcnow(), null=False)
     time_of_delivery = DateTimeField(null=False)

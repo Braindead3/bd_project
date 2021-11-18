@@ -2,6 +2,7 @@ import phonenumbers
 from flask_login import current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms.fields import DateField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from bd_project.models import User
 import phonenumbers
@@ -92,3 +93,10 @@ class UpdateAccountForm(FlaskForm):
                 raise ValidationError('Invalid phone number.')
         except:
             raise ValidationError('Invalid phone number.')
+
+
+class OrderForm(FlaskForm):
+    address = StringField('address', validators=[DataRequired()])
+    order_date = DateField('Order date', format='%Y-%m-%d',
+                           render_kw={'placeholder': '6/20/15 for June 20, 2015'})
+    submit = SubmitField('order')

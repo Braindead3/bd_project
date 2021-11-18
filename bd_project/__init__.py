@@ -8,6 +8,8 @@ import atexit
 db = SqliteQueueDatabase('bd_project/DB/project.db', use_gevent=False, autostart=True, queue_max_size=64,
                          results_timeout=5.0, pragmas={'foreign_keys': 1})
 login_manager = LoginManager()
+login_manager.login_view = 'users.login'
+login_manager.login_message_category = 'info'
 bcrypt = Bcrypt()
 
 
