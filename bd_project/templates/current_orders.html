@@ -9,7 +9,7 @@
             <h6 class="card-subtitle mb-2">Status: {{ order.status }}</h6>
             <h5>Ordered Products:</h5>
             {% for product in order.products %}
-            <span>{{ product.product_id.name}}</span><br>
+            <span>Product: {{ product.product_id.name }}, {{ product.amount }} </span><br>
             {% endfor %}
             <p class="card-text"></p>
         </div>
