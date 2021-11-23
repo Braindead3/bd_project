@@ -5,7 +5,8 @@ from bd_project.models import User, Product, Order, OrderList
 from bd_project.users.forms import RegistrationForm, LoginForm, UpdateAccountForm, OrderForm
 import json
 from datetime import datetime
-from bd_project.users.utils import get_current_order_products
+from bd_project.users.utils import (get_current_order_products, add_current_ordered_products,
+                                    clear_current_user_ordered_products)
 
 users = Blueprint('users', __name__)
 
@@ -122,9 +123,7 @@ def remove_from_cart(product_id):
 def clear_cart():
     with open('ordered_products.json') as f:
         order_products_by_users = json.load(f)
-    order_products_by_users[f'{current_user.id}'] = []
-    with open('ordered_products.json', 'w') as f:
-        json.dump(order_products_by_users, f, indent=2)
+    clear_current_user_ordered_products(order_products_by_users)
     return redirect(url_for('main.home'))
 
 
@@ -140,14 +139,8 @@ def add_order():
         order = Order(user_id=current_user, address=form.address.data, time_creation=datetime.utcnow(),
                       time_of_delivery=form.order_date.data)
         order.save()
-        for products in order_products_by_current_user:
-            for pr_id, product in products.items():
-                order_product = OrderList(order_id=order.id, product_id=Product.get(Product.id == pr_id),
-                                          amount=product.get('amount'))
-                order_product.save()
-        order_products_by_users[f'{current_user.id}'] = []
-        with open('ordered_products.json', 'w') as f:
-            json.dump(order_products_by_users, f, indent=2)
+        add_current_ordered_products(order_products_by_current_user, order.id)
+        clear_current_user_ordered_products(order_products_by_users)
         flash('Your order is accepted', 'success')
         return redirect(url_for('main.home'))
     elif request.method == 'GET':
