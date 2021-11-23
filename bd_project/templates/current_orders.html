@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="container">
+    {% for order in orders %}
+    <div class="card mt-1" style="width: 100%;">
+        <div class="card-body">
+            <h5 class="card-title">Order:  {{ order.id }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Delivery date: {{ order.time_of_delivery }}</h6>
+            <h6 class="card-subtitle mb-2">Status: {{ order.status }}</h6>
+            <h5>Ordered Products:</h5>
+            {% for product in order.products %}
+            <span>{{ product.product_id.name}}</span><br>
+            {% endfor %}
+            <p class="card-text"></p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}

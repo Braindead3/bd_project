@@ -5,6 +5,7 @@ from bd_project.models import User, Product, Order, OrderList
 from bd_project.users.forms import RegistrationForm, LoginForm, UpdateAccountForm, OrderForm
 import json
 from datetime import datetime
+from bd_project.users.utils import get_current_order_products
 
 users = Blueprint('users', __name__)
 
@@ -66,17 +67,6 @@ def account():
         form.phone.data = current_user.phone
         form.address.data = current_user.address
     return render_template('account.html', title='Account', form=form)
-
-
-def add_product_to_order_dict(order_products_by_users, product_id, product):
-    order_products_by_users[f'{current_user.id}'].append({
-        product_id:
-            {
-                'product': product.name,
-                'amount': 1,
-                'price': product.price
-            }
-    })
 
 
 @users.route('/add_to_cart?<int:product_id>')
@@ -169,4 +159,5 @@ def add_order():
 @login_required
 def current_orders():
     orders = current_user.orders
-    pass
+    order_products_by_current_user = get_current_order_products(current_user.id)
+    return render_template('current_orders.html', order_products=order_products_by_current_user, orders=orders)
