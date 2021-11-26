@@ -1,12 +1,13 @@
 from flask import (Blueprint, url_for, redirect, flash, render_template, request)
 from flask_login import current_user, login_user, logout_user, login_required
 from bd_project import bcrypt
-from bd_project.models import User, Product, Order, OrderList
+from bd_project.models import User, Product, Order, OrderList, Courier
 from bd_project.users.forms import RegistrationForm, LoginForm, UpdateAccountForm, OrderForm
 import json
 from datetime import datetime
 from bd_project.users.utils import (get_current_order_products, add_current_ordered_products,
                                     clear_current_user_ordered_products)
+from random import choice
 
 users = Blueprint('users', __name__)
 
@@ -136,7 +137,8 @@ def add_order():
         order_products_by_users = json.load(f)
         order_products_by_current_user = order_products_by_users.get(f'{current_user.id}')
     if form.validate_on_submit():
-        order = Order(user_id=current_user, address=form.address.data, time_creation=datetime.utcnow(),
+        order = Order(user_id=current_user, courier_id=choice(Courier.select()), address=form.address.data,
+                      time_creation=datetime.utcnow(),
                       time_of_delivery=form.order_date.data)
         order.save()
         add_current_ordered_products(order_products_by_current_user, order.id)
