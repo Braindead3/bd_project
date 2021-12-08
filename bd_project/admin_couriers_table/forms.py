@@ -44,7 +44,7 @@ class UpdateCourierForm(FlaskForm):
                                validators=[DataRequired()])
     address_update = StringField('Address',
                                  validators=[DataRequired()])
-    submit_update = SubmitField('Add Courier')
+    submit_update = SubmitField('Update Courier')
     updated_courier = None
 
     @staticmethod
