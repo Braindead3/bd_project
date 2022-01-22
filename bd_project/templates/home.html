@@ -1,6 +1,38 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
+
+    <div class="row mb-2">
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <div class="row">
+                    <div class="col-11">
+                        <div class="form-group">
+                            {{ form.search_product_name.label(class="form-control-label") }}
+                            {% if form.search_product_name.errors %}
+                            {{ form.search_product_name(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.search_product_name.errors %}
+                                <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form.search_product_name(class="form-control form-control-lg") }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-1 pt-2">
+                        <div class="form-group pt-3">
+                            {{ form.search_submit(class="btn btn-outline-info btn-lg") }}
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+
+
     <div class="row g-3">
         {% for product in products %}
         <div class="col-12 col-md-9 col-lg-3">
@@ -20,7 +52,7 @@
                         <div class="col-6">
                             <h6 class="card-subtitle mb-2 text-muted">{{ product.price }} BYN</h6>
                         </div>
-                         <div class="col-6">
+                        <div class="col-6">
                             <h6 class="card-subtitle mb-2 text-muted">{{ product.weight }} gr.</h6>
                         </div>
                     </div>

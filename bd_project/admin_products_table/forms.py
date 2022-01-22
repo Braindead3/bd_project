@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from flask_wtf.file import FileField, FileAllowed
+from flask_wtf.file import FileField
 from wtforms import StringField, SubmitField, SelectField, FloatField, IntegerField
 from wtforms.validators import DataRequired, Length, ValidationError
 from bd_project.models import Product
@@ -12,7 +12,7 @@ class AddProductForm(FlaskForm):
     description_add = StringField('Product description', validators=[DataRequired()])
     weight_add = IntegerField('Product weight', validators=[DataRequired()])
     category_add = StringField('Category', validators=[DataRequired()])
-    image_add = FileField('Product picture', validators=[FileAllowed(['jpg', 'png', 'jpeg', 'bmp'])])
+    image_add = FileField('Product picture')
     submit_add = SubmitField('Add')
 
     @staticmethod
@@ -28,8 +28,8 @@ class UpdateProductForm(FlaskForm):
     price_update = FloatField('Product price', validators=[DataRequired()])
     description_update = StringField('Product description', validators=[DataRequired()])
     weight_update = IntegerField('Product weight', validators=[DataRequired()])
-    image_update = FileField('Update product picture', validators=[FileAllowed(['jpg', 'png', 'jpeg', 'bmp'])])
     category_update = StringField('Category', validators=[DataRequired()])
+    image_update = FileField('Update product picture')
     submit_update = SubmitField('Update')
     updated_product = None
 
