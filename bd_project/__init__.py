@@ -3,10 +3,12 @@ from bd_project.config import Config
 from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
 from playhouse.sqliteq import SqliteQueueDatabase
+# from peewee import SqliteDatabase
 import atexit
 
 db = SqliteQueueDatabase('bd_project/DB/project.db', use_gevent=False, autostart=True, queue_max_size=64,
                          results_timeout=5.0, pragmas={'foreign_keys': 1})
+# db = SqliteDatabase('bd_project/DB/project.db')
 login_manager = LoginManager()
 login_manager.login_view = 'users.login'
 login_manager.login_message_category = 'info'

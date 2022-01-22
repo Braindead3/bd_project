@@ -35,6 +35,7 @@ class Courier(BaseModel):
     name = CharField(max_length=20, unique=True, null=False)
     phone = CharField(max_length=15, unique=True, null=False)
     address = CharField(max_length=20, null=False)
+    password = CharField(null=False)
 
     def __repr__(self):
         return f'Courier("{self.name}","{self.phone}","{self.address}")'
@@ -49,6 +50,7 @@ class Product(BaseModel):
     description = TextField(null=False)
     weight = IntegerField(null=False)
     image = CharField(null=False)
+    category = CharField(null=False)
 
     def __repr__(self):
         return f'Product("{self.name}","{self.price}","{self.description},{self.weight},{self.image}")'

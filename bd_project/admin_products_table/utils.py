@@ -12,7 +12,7 @@ def save_picture(form_picture):
     picture_file_name = random_hex + file_ext
     picture_path = os.path.join(current_app.root_path, 'static/food_pics', picture_file_name)
 
-    output_size = (268, 180)
+    output_size = (200, 200)
     resized_image = Image.open(form_picture)
     resized_image.thumbnail(output_size)
     resized_image.save(picture_path)
@@ -32,7 +32,7 @@ def add_product(add_form):
     picture_file = save_picture(add_form.image_add.data)
     product = Product(name=add_form.name_add.data, price=add_form.price_add.data,
                       description=add_form.description_add.data,
-                      weight=add_form.weight_add.data, image=picture_file)
+                      weight=add_form.weight_add.data, image=picture_file, category=add_form.category_add.data)
     product.save()
 
 
@@ -41,6 +41,7 @@ def set_updated_form_fields(update_form):
     update_form.price_update.data = update_form.updated_product.price
     update_form.description_update.data = update_form.updated_product.description
     update_form.weight_update.data = update_form.updated_product.weight
+    update_form.category_update.data = update_form.updated_product.category
     return update_form.name_update.data
 
 
@@ -52,4 +53,5 @@ def update_product(update_form):
     update_form.updated_product.price = update_form.price_update.data
     update_form.updated_product.description = update_form.description_update.data
     update_form.updated_product.weight = update_form.weight_update.data
+    update_form.updated_product.category = update_form.category_update.data
     update_form.updated_product.save()

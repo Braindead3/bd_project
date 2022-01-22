@@ -1,5 +1,5 @@
 import json
-
+from playhouse.flask_utils import object_list
 from flask import render_template, Blueprint
 from flask_login import current_user
 from bd_project.models import Product
@@ -16,8 +16,8 @@ def home():
             order_products_by_users = json.load(f)
             order_products_by_current_user = order_products_by_users.get(f'{current_user.id}')
     products = Product.select()
-    return render_template('home.html', title='Home page', products=products,
-                           order_products=order_products_by_current_user)
+    return object_list('home.html', title='Home page', query=products, context_variable='products', paginate_by=2,
+                       order_products=order_products_by_current_user)
 
 
 @main.route('/admin_tables')

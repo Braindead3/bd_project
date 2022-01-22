@@ -12,6 +12,7 @@ class AddCourierForm(FlaskForm):
                             validators=[DataRequired()])
     address_add = StringField('Address',
                               validators=[DataRequired()])
+    password_add = StringField('Password', validators=[DataRequired()])
     submit_add = SubmitField('Add Courier')
 
     @staticmethod

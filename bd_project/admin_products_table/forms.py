@@ -11,6 +11,7 @@ class AddProductForm(FlaskForm):
     price_add = FloatField('Product price', validators=[DataRequired()])
     description_add = StringField('Product description', validators=[DataRequired()])
     weight_add = IntegerField('Product weight', validators=[DataRequired()])
+    category_add = StringField('Category', validators=[DataRequired()])
     image_add = FileField('Product picture', validators=[FileAllowed(['jpg', 'png', 'jpeg', 'bmp'])])
     submit_add = SubmitField('Add')
 
@@ -28,6 +29,7 @@ class UpdateProductForm(FlaskForm):
     description_update = StringField('Product description', validators=[DataRequired()])
     weight_update = IntegerField('Product weight', validators=[DataRequired()])
     image_update = FileField('Update product picture', validators=[FileAllowed(['jpg', 'png', 'jpeg', 'bmp'])])
+    category_update = StringField('Category', validators=[DataRequired()])
     submit_update = SubmitField('Update')
     updated_product = None
 

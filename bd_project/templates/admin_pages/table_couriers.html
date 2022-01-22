@@ -67,6 +67,19 @@
                         {{ add_form.address_add(class="form-control form-control-lg") }}
                         {% endif %}
                     </div>
+                     <div class="form-group">
+                        {{ add_form.password_add.label(class="form-control-label") }}
+                        {% if add_form.password_add.errors %}
+                        {{ add_form.password_add(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in add_form.password_add.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        {{ add_form.password_add(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
                     <div class="form-group pt-3">
                         {{ add_form.submit_add(class="btn btn-outline-info") }}
                     </div>

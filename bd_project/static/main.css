@@ -69,8 +69,8 @@ a.article-title:hover {
 }
 
 .food-img {
-  height: 180px;
-  width: 180px;
+  height: 200px;
+  width: 100%;
   margin-right: 20px;
   margin-bottom: 16px;
 }
