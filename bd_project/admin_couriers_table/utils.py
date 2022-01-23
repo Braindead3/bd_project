@@ -1,5 +1,6 @@
 from bd_project.admin_couriers_table.forms import AddCourierForm, UpdateCourierForm, DeleteCourierForm
 from bd_project.models import Courier
+from bd_project import bcrypt
 
 
 def init_forms_and_couriers():
@@ -11,7 +12,9 @@ def init_forms_and_couriers():
 
 
 def add_courier(form):
-    courier = Courier(name=form.name_add.data, phone=form.phone_add.data, address=form.address_add.data)
+    hashed_password = bcrypt.generate_password_hash(form.password_add.data).decode('utf-8')
+    courier = Courier(name=form.name_add.data, phone=form.phone_add.data, address=form.address_add.data,
+                      password=hashed_password)
     courier.save()
 
 

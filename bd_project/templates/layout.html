@@ -45,9 +45,13 @@
                     <a class="nav-item nav-link" href="{{ url_for('users.account') }}">Account</a>
                     <a class="nav-item nav-link" href="{{ url_for('users.logout') }}">Logout</a>
                 </div>
+                {% elif session['courier'] %}
+                    <a class="nav-item nav-link" href=" {{ url_for('couriers.current_courier_orders') }} ">My curent orders</a>
+                    <a class="nav-item nav-link" href="{{ url_for('couriers.logout') }}">Logout</a>
                 {% else %}
                 <div class="navbar-nav ms-auto">
-                    <a class="nav-item nav-link" href="{{ url_for('users.login') }}">Login</a>
+                    <a class="nav-item nav-link" href="{{ url_for('users.login') }}">Login as user</a>
+                    <a class="nav-item nav-link" href="{{ url_for('couriers.login') }}">Login as courier</a>
                     <a class="nav-item nav-link" href="{{ url_for('users.register') }}">Register</a>
                 </div>
                 {% endif %}

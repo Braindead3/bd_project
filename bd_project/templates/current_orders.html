@@ -11,6 +11,9 @@
             {% for product in order.products %}
             <span>Product: {{ product.product_id.name }}, {{ product.amount }} </span><br>
             {% endfor %}
+            {% if session['courier']  and order.status == 'not done' %}
+                <a href="{{ url_for('couriers.complete_order',order_id=order.id) }}" class="mt-2 btn btn-outline-info">Complete</a>
+            {% endif %}
             <p class="card-text"></p>
         </div>
     </div>
