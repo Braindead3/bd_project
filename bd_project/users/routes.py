@@ -8,6 +8,7 @@ from datetime import datetime
 from bd_project.users.utils import (get_current_order_products, add_current_ordered_products,
                                     clear_current_user_ordered_products)
 from random import choice
+from bd_project.classes import UserHelper
 
 users = Blueprint('users', __name__)
 
@@ -132,22 +133,21 @@ def clear_cart():
 @login_required
 def add_order():
     form = OrderForm()
-    order_products_by_current_user = None
-    with open('ordered_products.json', 'r') as f:
-        order_products_by_users = json.load(f)
-        order_products_by_current_user = order_products_by_users.get(f'{current_user.id}')
+    order_products_by_current_user = UserHelper.current_user_ordered_products()
+    order_price = UserHelper.order_price(order_products_by_current_user)
     if form.validate_on_submit():
         order = Order(user_id=current_user, courier_id=choice(Courier.select()), address=form.address.data,
                       time_creation=datetime.utcnow(),
                       time_of_delivery=form.order_date.data)
         order.save()
         add_current_ordered_products(order_products_by_current_user, order.id)
-        clear_current_user_ordered_products(order_products_by_users)
+        clear_current_user_ordered_products(UserHelper.users_ordered_products())
         flash('Your order is accepted', 'success')
         return redirect(url_for('main.home'))
     elif request.method == 'GET':
         form.address.data = current_user.address
-    return render_template('order.html', order_products=order_products_by_current_user, form=form)
+    return render_template('order.html', order_products=order_products_by_current_user, form=form,
+                           order_price=order_price)
 
 
 @users.route('/current_orders', methods=['GET'])

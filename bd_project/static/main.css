@@ -94,3 +94,9 @@ text-decoration: none;
 height: 75px;
 width: 75px;
 }
+
+.buy-button{
+position: absolute;
+left: 1;
+bottom: 0;
+}
