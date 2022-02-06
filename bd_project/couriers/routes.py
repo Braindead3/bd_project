@@ -41,3 +41,29 @@ def complete_order(order_id):
     order.status = 'done'
     order.save()
     return redirect(url_for('couriers.current_courier_orders'))
+
+
+@couriers.route('/all_orders')
+def all_orders():
+    orders = Order.select().where(Order.courier_id.is_null())
+    return render_template('current_orders.html', orders=orders)
+
+
+@couriers.route('/all_orders/<int:order_id>')
+def get_order(order_id):
+    order = Order.get(Order.id == order_id)
+    order.courier_id = session['courier']
+    order.save()
+    return redirect(url_for('couriers.all_orders'))
+
+
+@couriers.route('/all_orders/done_orders')
+def done_orders():
+    orders = Order.select().where(Order.status == 'done')
+    return render_template('current_orders.html', orders=orders)
+
+
+@couriers.route('/all_orders/not_done_orders')
+def not_done_orders():
+    orders = Order.select().where(Order.status == 'not done')
+    return render_template('current_orders.html', orders=orders)

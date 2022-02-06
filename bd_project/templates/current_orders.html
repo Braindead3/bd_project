@@ -1,22 +1,45 @@
 {% extends 'layout.html' %}
 {% block content %}
 <div class="container">
-    {% for order in orders %}
-    <div class="card mt-1" style="width: 100%;">
-        <div class="card-body">
-            <h5 class="card-title">Order:  {{ order.id }}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Delivery date: {{ order.time_of_delivery }}</h6>
-            <h6 class="card-subtitle mb-2">Status: {{ order.status }}</h6>
-            <h5>Ordered Products:</h5>
-            {% for product in order.products %}
-            <span>Product: {{ product.product_id.name }}, {{ product.amount }} </span><br>
+    <div class="row">
+        <div class="col-2">
+            <div class="btn-group mt-2">
+                <a type="button" class="btn btn-info" href="{{ url_for('couriers.done_orders') }}">
+                    Выполненные заказы
+                </a>
+            </div>
+            <div class="btn-group  mt-2">
+                <a type="button" class="btn btn-info" href="{{ url_for('couriers.not_done_orders') }}">
+                    Не выполненные заказы
+                </a>
+            </div>
+        </div>
+        <div class="col-10">
+            {% for order in orders %}
+            <div class="card mt-1" style="width: 100%;">
+                <div class="card-body">
+                    <h5 class="card-title">Номер заказа: {{ order.id }}</h5>
+                    <h5 class="card-title">Номер клиента: {{ order.user_id.phone }}</h5>
+                    <h5 class="card-title">Имя клиента: {{ order.user_id.username }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Дата доставки: {{ order.time_of_delivery }}</h6>
+                    <h6 class="card-subtitle mb-2">Статус доставки: {{ order.status }}</h6>
+                    <h5>Заказанные продукты:</h5>
+                    {% for product in order.products %}
+                    <span>Продукт: {{ product.product_id.name }}, {{ product.amount }} </span><br>
+                    {% endfor %}
+                    {% if session['courier'] and order.status == 'not done' and order.courier_id %}
+                    <a href="{{ url_for('couriers.complete_order',order_id=order.id) }}"
+                       class="mt-2 btn btn-outline-info">Выполнить</a>
+                    {% endif %}
+                    {% if session['courier'] and order.status == 'not done' and not order.courier_id %}
+                    <a href="{{ url_for('couriers.get_order',order_id=order.id) }}" class="mt-2 btn btn-outline-info">Взять
+                        заказ</a>
+                    {% endif %}
+                    <p class="card-text"></p>
+                </div>
+            </div>
             {% endfor %}
-            {% if session['courier']  and order.status == 'not done' %}
-                <a href="{{ url_for('couriers.complete_order',order_id=order.id) }}" class="mt-2 btn btn-outline-info">Complete</a>
-            {% endif %}
-            <p class="card-text"></p>
         </div>
     </div>
-    {% endfor %}
 </div>
 {% endblock content %}

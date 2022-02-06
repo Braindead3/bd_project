@@ -115,6 +115,8 @@ def remove_from_cart(product_id):
     for product_or in order_products_by_users.get(f'{current_user.id}'):
         if f'{product_id}' in product_or:
             product_or.get(f'{product_id}')['amount'] = product_or.get(f'{product_id}').get('amount') - 1
+            if product_or.get(f'{product_id}')['amount'] == 0:
+                product_or.pop(f'{product_id}')
     with open('ordered_products.json', 'w') as f:
         json.dump(order_products_by_users, f, indent=2)
     return redirect(url_for('main.home'))
@@ -136,7 +138,7 @@ def add_order():
     order_products_by_current_user = UserHelper.current_user_ordered_products()
     order_price = UserHelper.order_price(order_products_by_current_user)
     if form.validate_on_submit():
-        order = Order(user_id=current_user, courier_id=choice(Courier.select()), address=form.address.data,
+        order = Order(user_id=current_user, address=form.address.data,
                       time_creation=datetime.utcnow(),
                       time_of_delivery=form.order_date.data)
         order.save()
