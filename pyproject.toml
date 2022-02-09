@@ -16,6 +16,7 @@ email-validator = "^1.1.3"
 phonenumbers = "^8.12.36"
 gunicorn = "^20.1.0"
 Pillow = "^8.4.0"
+Flask-Mail = "^0.9.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

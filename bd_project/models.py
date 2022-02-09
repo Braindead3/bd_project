@@ -1,7 +1,10 @@
+from flask import current_app
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from peewee import *
 from datetime import datetime
 from bd_project import login_manager, db
 from flask_login import UserMixin
+
 
 
 @login_manager.user_loader
@@ -23,6 +26,18 @@ class User(BaseModel, UserMixin):
     phone = CharField(max_length=15, unique=True, null=False)
     address = CharField(max_length=20, null=False)
     password = CharField(max_length=60, null=False)
+
+    def get_reset_token(self, expire_sec=1800):
+        s = Serializer(current_app.config['SECRET_KEY'], expire_sec)
+        return s.dumps({'user_id': self.id}).decode('utf-8')
+
+    @staticmethod
+    def verify_reset_token(token):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        user_id = s.loads(token).get('user_id')
+        if user_id is None:
+            return None
+        return User.get_by_id(user_id)
 
     def __repr__(self):
         return f'User("{self.username}","{self.email},"{self.phone},"{self.address}")'

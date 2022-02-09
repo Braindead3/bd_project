@@ -6,6 +6,8 @@ bcrypt==3.2.0; python_version >= "3.6" \
     --hash=sha256:a67fb841b35c28a59cebed05fbd3e80eea26e6d75851f0574a9273c80f3e9b55 \
     --hash=sha256:81fec756feff5b6818ea7ab031205e1d323d8943d237303baca2c5f9c7846f34 \
     --hash=sha256:5b93c1726e50a93a033c36e5ca7fdcd29a5c7395af50a6892f5d9e7c6cfbfb29
+blinker==1.4 \
+    --hash=sha256:471aee25f3992bd325afa3772f1063dbdbbca947a041b8b89466dc00d606f8b6
 cffi==1.15.0; python_version >= "3.6" \
     --hash=sha256:c2502a1a03b6312837279c8c1bd3ebedf6c12c4228ddbad40912d671ccc8a962 \
     --hash=sha256:23cfe892bd5dd8941608f93348c0737e369e51c100d03718f108bf1add7bd6d0 \
@@ -74,6 +76,8 @@ flask-bcrypt==0.7.1 \
 flask-login==0.5.0 \
     --hash=sha256:6d33aef15b5bcead780acc339464aae8a6e28f13c90d8b1cf9de8b549d1c0b4b \
     --hash=sha256:7451b5001e17837ba58945aead261ba425fdf7b4f0448777e597ddab39f4fba0
+flask-mail==0.9.1 \
+    --hash=sha256:22e5eb9a940bf407bcf30410ecc3708f3c56cc44b29c34e1726fe85006935f41
 flask-wtf==1.0.0; python_version >= "3.6" \
     --hash=sha256:872fbb17b5888bfc734edbdcf45bc08fb365ca39f69d25dc752465a455517b28 \
     --hash=sha256:01feccfc395405cea48a3f36c23f0d766e2cc6fd2a5a065ad50ad3e5827ec797

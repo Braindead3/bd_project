@@ -86,17 +86,36 @@ class UpdateAccountForm(FlaskForm):
     @staticmethod
     def validate_phone(self, phone):
         if len(phone.data) > 16:
-            raise ValidationError('Invalid phone number.')
+            raise ValidationError('Неправельный номер телефона.')
         try:
             input_number = phonenumbers.parse(phone.data)
             if not (phonenumbers.is_valid_number(input_number)):
-                raise ValidationError('Invalid phone number.')
+                raise ValidationError('Неправельный номер телефона.')
         except:
-            raise ValidationError('Invalid phone number.')
+            raise ValidationError('Неправельный номер телефона.')
 
 
 class OrderForm(FlaskForm):
-    address = StringField('address', validators=[DataRequired()])
-    order_date = DateField('Order date', format='%Y-%m-%d',
+    address = StringField('Адресс', validators=[DataRequired()])
+    order_date = DateField('Время и дата заказа', format='%Y-%m-%d',
                            render_kw={'placeholder': '6/20/15 for June 20, 2015'})
-    submit = SubmitField('order')
+    submit = SubmitField('Заказать')
+
+
+class RequestResetForm(FlaskForm):
+    email = StringField('Почта',
+                        validators=[DataRequired(), Email()])
+    submit = SubmitField('Сброс пароля')
+
+    @staticmethod
+    def validate_email(self, email):
+        user = User.get_or_none(User.email == email.data)
+        if user is None:
+            raise ValidationError('Такого аккаунта не существует')
+
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField('Пароль', validators=[DataRequired()])
+    confirm_password = PasswordField('Потдвердите пароль',
+                                     validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Сбросить пароль')
