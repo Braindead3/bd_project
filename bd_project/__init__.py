@@ -4,6 +4,8 @@ from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
 from playhouse.sqliteq import SqliteQueueDatabase
 from flask_mail import Mail
+import logging
+import sys
 # from peewee import SqliteDatabase
 import atexit
 
@@ -20,6 +22,8 @@ bcrypt = Bcrypt()
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(Config)
+    app.logger.addHandler(logging.StreamHandler(sys.stdout))
+    app.logger.setLevel(logging.ERROR)
     mail.init_app(app)
 
     bcrypt.init_app(app)

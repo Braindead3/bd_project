@@ -170,7 +170,7 @@ def send_reset_request():
     if form.validate_on_submit():
         user = User.get(User.email == form.email.data)
         send_reset_email(user)
-        flash('Сообщение было отправлено. Следуйте инструцкиям из письма', 'info')
+        flash('Сообщение было отправлено. Следуйте инструцкиям из письма.', 'info')
         return redirect(url_for('users.login'))
     return render_template('reset_request.html', title='Reset password', form=form)
 
