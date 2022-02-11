@@ -8,7 +8,7 @@ from bd_project.users.forms import RegistrationForm, LoginForm, UpdateAccountFor
 import json
 from datetime import datetime
 from bd_project.users.utils import (get_current_order_products, add_current_ordered_products,
-                                    clear_current_user_ordered_products, send_reset_email)
+                                    clear_current_user_ordered_products, send_reset_email, send_sales_receipt)
 from random import choice
 from bd_project.classes import UserHelper
 
@@ -78,8 +78,11 @@ def account():
 @login_required
 def add_to_cart(product_id):
     product = Product.get(Product.id == product_id)
-    with open('ordered_products.json') as f:
-        order_products_by_users = json.load(f)
+    try:
+        with open('ordered_products.json') as f:
+            order_products_by_users = json.load(f)
+    except json.decoder.JSONDecodeError:
+        order_products_by_users = {}
     if f'{current_user.id}' in order_products_by_users:
         for product_or in order_products_by_users.get(f'{current_user.id}'):
             if f'{product_id}' in product_or:
@@ -129,7 +132,7 @@ def remove_from_cart(product_id):
 def clear_cart():
     with open('ordered_products.json') as f:
         order_products_by_users = json.load(f)
-    clear_current_user_ordered_products(order_products_by_users)
+    clear_current_user_ordered_products()
     return redirect(url_for('main.home'))
 
 
@@ -145,8 +148,9 @@ def add_order():
                       time_of_delivery=form.order_date.data)
         order.save()
         add_current_ordered_products(order_products_by_current_user, order.id)
-        clear_current_user_ordered_products(UserHelper.users_ordered_products())
-        flash('Your order is accepted', 'success')
+        clear_current_user_ordered_products()
+        flash('Ваp заказ принят и чек вышлен на почту.', 'success')
+        send_sales_receipt(current_user, order_products_by_current_user)
         return redirect(url_for('main.home'))
     elif request.method == 'GET':
         form.address.data = current_user.address
@@ -170,7 +174,7 @@ def send_reset_request():
     if form.validate_on_submit():
         user = User.get(User.email == form.email.data)
         send_reset_email(user)
-        flash('Сообщение было отправлено. Следуйте инструцкиям из письма.', 'info')
+        flash('Письмо было отправлено. Следуйте инструцкиям из письма.', 'info')
         return redirect(url_for('users.login'))
     return render_template('reset_request.html', title='Reset password', form=form)
 

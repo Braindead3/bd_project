@@ -37,7 +37,10 @@ def home():
     sel_category = None
     product_categories = choose_categories()
     form = SearchForm()
-    order_products_by_current_user = current_user_ordered_products()
+    try:
+        order_products_by_current_user = current_user_ordered_products()
+    except json.decoder.JSONDecodeError:
+        order_products_by_current_user = None
     order_price = UserHelper.order_price(order_products_by_current_user)
     if form.validate_on_submit():
         products = Product.select().where(Product.name.contains(f'{form.search_product_name.data.capitalize()}'))
