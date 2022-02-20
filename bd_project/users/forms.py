@@ -1,7 +1,7 @@
 import phonenumbers
 from flask_login import current_user
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
 from wtforms.fields import DateField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from bd_project.models import User
@@ -119,3 +119,4 @@ class ResetPasswordForm(FlaskForm):
     confirm_password = PasswordField('Потдвердите пароль',
                                      validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Сбросить пароль')
+

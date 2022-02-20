@@ -87,16 +87,7 @@
                     </div>
                     <div class="form-group">
                         {{ add_form.category_add.label(class="form-control-label") }}
-                        {% if add_form.category_add.errors %}
-                        {{ add_form.category_add(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in add_form.category_add.errors %}
-                            <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                        {% else %}
-                        {{ add_form.category_add(class="form-control form-control-lg") }}
-                        {% endif %}
+                        {{ add_form.category_add(class="form-select") }}
                     </div>
                     <div class="form-group">
                         {{ add_form.image_add.label(class="form-control-label") }}
@@ -196,18 +187,9 @@
                         {{ update_form.weight_update(class="form-control form-control-lg") }}
                         {% endif %}
                     </div>
-                    <div class="form-group">
+                     <div class="form-group">
                         {{ update_form.category_update.label(class="form-control-label") }}
-                        {% if update_form.category_update.errors %}
-                        {{ update_form.category_update(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in update_form.category_update.errors %}
-                            <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                        {% else %}
-                        {{ update_form.category_update(class="form-control form-control-lg") }}
-                        {% endif %}
+                        {{ update_form.category_update(class="form-select") }}
                     </div>
                     <div class="form-group">
                         {{ update_form.image_update.label(class="form-control-label") }}

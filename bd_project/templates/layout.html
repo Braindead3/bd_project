@@ -37,7 +37,7 @@
                     <a class="nav-item nav-link" href="#">О нас</a>
                 </div>
                 <!-- Navbar Right Side -->
-                {% if current_user.is_authenticated and current_user.username == 'admin' %}
+                {% if current_user.is_authenticated and current_user.username == 'admin' or current_user.username == 'Админ' %}
                 <div class="navbar-nav ms-auto">
                     <a class="nav-item nav-link" href="{{ url_for('main.admin_page') }}">Страница Админа</a>
                     <a class="nav-item nav-link" href="{{ url_for('users.logout') }}">Выйти</a>
@@ -93,7 +93,7 @@
                                 <h5>{{ product.get("product") }}</h5>
                             </div>
                             <div class="col-6">
-                                <h5>В карзине: {{ product.get('amount') }}</h5>
+                                <h5>В корзине: {{ product.get('amount') }}</h5>
                             </div>
                         </div>
                         <div class="row">
@@ -130,7 +130,7 @@
         {% else %}
         <div class="col-md-3">
             <div class="content-section">
-                <h3>Карзина:</h3>
+                <h3>Корзина:</h3>
                 <p>Ничего тут нету! Купи что нибудь!</p>
             </div>
         </div>

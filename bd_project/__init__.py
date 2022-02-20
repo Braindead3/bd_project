@@ -3,10 +3,10 @@ from bd_project.config import Config
 from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
 from playhouse.sqliteq import SqliteQueueDatabase
+from peewee import SqliteDatabase
 from flask_mail import Mail
 import logging
 import sys
-# from peewee import SqliteDatabase
 import atexit
 
 db = SqliteQueueDatabase('bd_project/DB/project.db', use_gevent=False, autostart=True, queue_max_size=64,

@@ -11,7 +11,7 @@ class AddProductForm(FlaskForm):
     price_add = FloatField('Product price', validators=[DataRequired()])
     description_add = StringField('Product description', validators=[DataRequired()])
     weight_add = IntegerField('Product weight', validators=[DataRequired()])
-    category_add = StringField('Category', validators=[DataRequired()])
+    category_add = SelectField('Выберите категорию', coerce=int)
     image_add = FileField('Product picture')
     submit_add = SubmitField('Add')
 
@@ -28,7 +28,7 @@ class UpdateProductForm(FlaskForm):
     price_update = FloatField('Product price', validators=[DataRequired()])
     description_update = StringField('Product description', validators=[DataRequired()])
     weight_update = IntegerField('Product weight', validators=[DataRequired()])
-    category_update = StringField('Category', validators=[DataRequired()])
+    category_update = SelectField('Выберите категорию', coerce=int)
     image_update = FileField('Update product picture')
     submit_update = SubmitField('Update')
     updated_product = None
@@ -43,5 +43,5 @@ class UpdateProductForm(FlaskForm):
 
 
 class DeleteProductForm(FlaskForm):
-    select_delete = SelectField('Select product', coerce=int)
-    submit_delete = SubmitField('Delete')
+    select_delete = SelectField('Выбирите продукт', coerce=int)
+    submit_delete = SubmitField('Удалить')

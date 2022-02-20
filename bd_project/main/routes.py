@@ -5,20 +5,12 @@ from flask_login import current_user
 from playhouse.flask_utils import object_list
 from bd_project.classes import UserHelper
 
-from bd_project.main.forms import SearchForm
-from bd_project.models import Product
+from bd_project.main.forms import SearchForm, ReviveForm
+from bd_project.models import Product, Categories, ProductReviews
 
 main = Blueprint('main', __name__)
 
 sel_category = None
-
-
-def choose_categories():
-    all_products = Product.select()
-    product_categories = set()
-    for product in all_products:
-        product_categories.add(product.category)
-    return list(product_categories)
 
 
 def current_user_ordered_products():
@@ -35,7 +27,7 @@ def current_user_ordered_products():
 def home():
     global sel_category
     sel_category = None
-    product_categories = choose_categories()
+    product_categories = Categories.select()
     form = SearchForm()
     try:
         order_products_by_current_user = current_user_ordered_products()
@@ -45,7 +37,7 @@ def home():
     if form.validate_on_submit():
         products = Product.select().where(Product.name.contains(f'{form.search_product_name.data.capitalize()}'))
         if not products:
-            flash('Nothing found', 'danger')
+            flash('Ничего не найдено', 'danger')
             products = Product.select()
     else:
         products = Product.select()
@@ -63,7 +55,7 @@ def admin_page():
 def filter_products_by_category(category):
     global sel_category
     sel_category = category
-    product_categories = choose_categories()
+    product_categories = Categories.select()
     form = SearchForm()
     products = Product.select().where(Product.category == sel_category)
     order_products_by_current_user = current_user_ordered_products()
@@ -73,7 +65,7 @@ def filter_products_by_category(category):
 
 @main.route('/filtered_products/price')
 def filter_products_by_cost():
-    product_categories = choose_categories()
+    product_categories = Categories.select()
     form = SearchForm()
     if sel_category:
         products = Product.select().where(Product.category == sel_category).order_by(Product.price)
@@ -86,7 +78,7 @@ def filter_products_by_cost():
 
 @main.route('/filtered_products/price_desc')
 def filter_products_by_cost_desc():
-    product_categories = choose_categories()
+    product_categories = Categories.select()
     form = SearchForm()
     if sel_category:
         products = Product.select().where(Product.category == sel_category).order_by(Product.price.desc())
@@ -95,3 +87,16 @@ def filter_products_by_cost_desc():
     order_products_by_current_user = current_user_ordered_products()
     return object_list('home.html', title='Home page', query=products, context_variable='products', paginate_by=10,
                        order_products=order_products_by_current_user, form=form, categories=product_categories)
+
+
+@main.route('/product/<product_id>', methods=['GET', 'POST'])
+def product_revive(product_id):
+    form = ReviveForm()
+    product = Product.get(Product.id == product_id)
+    revives = product.revives
+    if form.validate_on_submit():
+        revive = ProductReviews(review=form.revive.data, user_id=current_user.id, product_id=product_id)
+        revive.save()
+        form.revive.data = ''
+        return redirect(url_for('main.product_revive', product_id=product_id))
+    return render_template('product_revives.html', product=product, revives=revives, form=form)

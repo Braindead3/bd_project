@@ -100,3 +100,15 @@ position: absolute;
 left: 1;
 bottom: 0;
 }
+
+.filter-button{
+width: 120px;
+}
+
+.bg-color-done{
+background:#00FA9A;
+}
+
+.bg-color-not-done{
+background:#FFA07A;
+}

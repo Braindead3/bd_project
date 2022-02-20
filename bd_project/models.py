@@ -6,7 +6,6 @@ from bd_project import login_manager, db
 from flask_login import UserMixin
 
 
-
 @login_manager.user_loader
 def load_user(user_id):
     return User.get_by_id(int(user_id))
@@ -59,13 +58,23 @@ class Courier(BaseModel):
         db_table = 'Couriers'
 
 
+class Categories(BaseModel):
+    category = CharField(max_length=20, null=False)
+
+    def __repr__(self):
+        return f'Product("{self.category}")'
+
+    class Meta:
+        db_table = 'Categories'
+
+
 class Product(BaseModel):
     name = CharField(20, unique=True, null=False)
     price = DoubleField(null=False)
     description = TextField(null=False)
     weight = IntegerField(null=False)
     image = CharField(null=False)
-    category = CharField(null=False)
+    category = ForeignKeyField(Categories, backref='category')
 
     def __repr__(self):
         return f'Product("{self.name}","{self.price}","{self.description},{self.weight},{self.image}")'
@@ -101,6 +110,18 @@ class OrderList(BaseModel):
         db_table = 'OrderList'
 
 
+class ProductReviews(BaseModel):
+    review = TextField()
+    user_id = ForeignKeyField(User, backref='revives')
+    product_id = ForeignKeyField(Product, backref='revives')
+
+    def __repr__(self):
+        return f'Product("{self.review},"{self.user_id}")'
+
+    class Meta:
+        db_table = 'ProductReviews'
+
+
 def create_db():
     with db:
-        db.create_tables([User, Courier, Product, Order, OrderList])
+        db.create_tables([ProductReviews])
