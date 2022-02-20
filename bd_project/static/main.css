@@ -112,3 +112,8 @@ background:#00FA9A;
 .bg-color-not-done{
 background:#FFA07A;
 }
+
+.cart-btn{
+height:75px;
+width:100px;
+}

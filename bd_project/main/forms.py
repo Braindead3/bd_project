@@ -4,9 +4,9 @@ from wtforms.validators import DataRequired
 
 
 class SearchForm(FlaskForm):
-    search_product_name = StringField('Product',
+    search_product_name = StringField('Название',
                                       validators=[DataRequired()])
-    search_submit = SubmitField('Search')
+    search_submit = SubmitField('Поиск')
 
 
 class ReviveForm(FlaskForm):

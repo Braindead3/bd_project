@@ -6,31 +6,31 @@ from bd_project.models import Product
 
 
 class AddProductForm(FlaskForm):
-    name_add = StringField('Product name',
+    name_add = StringField('Название продукта',
                            validators=[DataRequired(), Length(min=2, max=20)])
-    price_add = FloatField('Product price', validators=[DataRequired()])
-    description_add = StringField('Product description', validators=[DataRequired()])
-    weight_add = IntegerField('Product weight', validators=[DataRequired()])
-    category_add = SelectField('Выберите категорию', coerce=int)
-    image_add = FileField('Product picture')
-    submit_add = SubmitField('Add')
+    price_add = FloatField('Цена', validators=[DataRequired()])
+    description_add = StringField('Описание', validators=[DataRequired()])
+    weight_add = IntegerField('Вес', validators=[DataRequired()])
+    category_add = SelectField('Категория', coerce=int)
+    image_add = FileField('Картинка')
+    submit_add = SubmitField('Добавить')
 
     @staticmethod
     def validate_name_add(self, name_add):
         product = Product.get_or_none(Product.name == name_add.data)
         if product:
-            raise ValidationError('That product name is taken. Please choose a different one.')
+            raise ValidationError('Такой продукт уже существует. Введите другое название.')
 
 
 class UpdateProductForm(FlaskForm):
-    name_update = StringField('Product name',
+    name_update = StringField('Название',
                               validators=[DataRequired(), Length(min=2, max=20)])
-    price_update = FloatField('Product price', validators=[DataRequired()])
-    description_update = StringField('Product description', validators=[DataRequired()])
-    weight_update = IntegerField('Product weight', validators=[DataRequired()])
+    price_update = FloatField('Цена', validators=[DataRequired()])
+    description_update = StringField('Описание', validators=[DataRequired()])
+    weight_update = IntegerField('Вес', validators=[DataRequired()])
     category_update = SelectField('Выберите категорию', coerce=int)
-    image_update = FileField('Update product picture')
-    submit_update = SubmitField('Update')
+    image_update = FileField('Картинка')
+    submit_update = SubmitField('Обновить')
     updated_product = None
 
     @staticmethod
@@ -39,7 +39,7 @@ class UpdateProductForm(FlaskForm):
             if self.updated_product.name != name_add.data:
                 product = Product.get(Product.name == name_add.data)
                 if product:
-                    raise ValidationError('That product name is taken. Please choose a different one.')
+                    raise ValidationError('Такой продукт уже существует. Введите другое название.')
 
 
 class DeleteProductForm(FlaskForm):

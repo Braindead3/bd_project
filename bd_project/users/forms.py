@@ -9,79 +9,79 @@ import phonenumbers
 
 
 class RegistrationForm(FlaskForm):
-    username = StringField('Username',
+    username = StringField('Имя пользователя',
                            validators=[DataRequired(), Length(min=2, max=20)])
-    email = StringField('Email',
+    email = StringField('Почта',
                         validators=[DataRequired(), Email()])
-    phone = StringField('Phone',
+    phone = StringField('Телефон',
                         validators=[DataRequired()])
-    address = StringField('Address',
+    address = StringField('Адрес',
                           validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    confirm_password = PasswordField('Confirm Password',
+    password = PasswordField('Пароль', validators=[DataRequired()])
+    confirm_password = PasswordField('Подтвердите пароль',
                                      validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('Sign Up')
+    submit = SubmitField('Зарегестрироваться')
 
     @staticmethod
     def validate_username(self, username):
         user = User.get_or_none(User.username == username.data)
         if user:
-            raise ValidationError('That username is taken. Please choose a different one.')
+            raise ValidationError('Такое имя пользователя уже существует. Выберите другое пожалуйста.')
 
     @staticmethod
     def validate_email(self, email):
         user = User.get_or_none(User.email == email.data)
         if user:
-            raise ValidationError('That email is taken. Please choose a different one.')
+            raise ValidationError('Такая почта уже существует. Выберите другую пожалуйста.')
 
     @staticmethod
     def validate_phone(self, phone):
         user = User.get_or_none(User.phone == phone.data)
         if user:
-            raise ValidationError('That phone is taken. Please choose a different one.')
+            raise ValidationError('Такой номер телефона уже существует. Введите другой.')
         else:
             if len(phone.data) > 16:
-                raise ValidationError('Invalid phone number.')
+                raise ValidationError('Неправильный номер телефона.')
             try:
                 input_number = phonenumbers.parse(phone.data)
                 if not (phonenumbers.is_valid_number(input_number)):
-                    raise ValidationError('Invalid phone number.')
+                    raise ValidationError('Неправильный номер телефона.')
             except:
-                raise ValidationError('Invalid phone number.')
+                raise ValidationError('Неправильный номер телефона.')
 
 
 class LoginForm(FlaskForm):
-    email = StringField('Email',
+    email = StringField('Почта',
                         validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    remember = BooleanField('Remember Me')
-    submit = SubmitField('Login')
+    password = PasswordField('Пароль', validators=[DataRequired()])
+    remember = BooleanField('Запомнить меня')
+    submit = SubmitField('Войти')
 
 
 class UpdateAccountForm(FlaskForm):
-    username = StringField('Username',
+    username = StringField('Имя пользователя',
                            validators=[DataRequired(), Length(min=2, max=20)])
-    email = StringField('Email',
+    email = StringField('Почта',
                         validators=[DataRequired(), Email()])
-    phone = StringField('Phone',
+    phone = StringField('Телефон',
                         validators=[DataRequired()])
-    address = StringField('Address',
+    address = StringField('Адрес',
                           validators=[DataRequired()])
-    submit = SubmitField('Update')
+    submit = SubmitField('Изменить')
 
     @staticmethod
     def validate_username(self, username):
         if username.data != current_user.username:
             user = User.get_or_none(User.username == username.data)
             if user:
-                raise ValidationError('That username is taken. Please choose a different one.')
+                raise ValidationError('Такое имя пользователя уже существует. Выберите другое пожалуйста.')
 
     @staticmethod
     def validate_email(self, email):
         if email.data != current_user.email:
             user = User.get_or_none(User.email == email.data)
             if user:
-                raise ValidationError('That email is taken. Please choose a different one.')
+                raise ValidationError('Такая почта уже существует. Выберите другую пожалуйста.')
 
     @staticmethod
     def validate_phone(self, phone):
