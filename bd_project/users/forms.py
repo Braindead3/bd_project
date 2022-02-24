@@ -2,10 +2,11 @@ import phonenumbers
 from flask_login import current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
-from wtforms.fields import DateField
+from wtforms.fields import DateField, TimeField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from bd_project.models import User
 import phonenumbers
+from datetime import datetime
 
 
 class RegistrationForm(FlaskForm):
@@ -97,9 +98,14 @@ class UpdateAccountForm(FlaskForm):
 
 class OrderForm(FlaskForm):
     address = StringField('Адресс', validators=[DataRequired()])
-    order_date = DateField('Время и дата заказа', format='%Y-%m-%d',
-                           render_kw={'placeholder': '6/20/15 for June 20, 2015'})
+    order_date = DateField('Дата заказа', format='%Y-%m-%d')
+    order_time = TimeField('Время заказа', validators=[DataRequired()])
     submit = SubmitField('Заказать')
+
+    @staticmethod
+    def validate_order_date(self, order_date):
+        if order_date.data < datetime.utcnow().date():
+            raise ValidationError('Неправельная дата')
 
 
 class RequestResetForm(FlaskForm):
@@ -119,4 +125,3 @@ class ResetPasswordForm(FlaskForm):
     confirm_password = PasswordField('Потдвердите пароль',
                                      validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Сбросить пароль')
-

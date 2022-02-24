@@ -143,13 +143,16 @@ def add_order():
     order_products_by_current_user = UserHelper.current_user_ordered_products()
     order_price = UserHelper.order_price(order_products_by_current_user)
     if form.validate_on_submit():
+        order_date = form.order_date.data
+        order_time = form.order_time.data
         order = Order(user_id=current_user, address=form.address.data,
                       time_creation=datetime.utcnow(),
-                      time_of_delivery=form.order_date.data)
+                      time_of_delivery=datetime(order_date.year, order_date.month, order_date.day,
+                                                order_time.hour, order_time.minute))
         order.save()
         add_current_ordered_products(order_products_by_current_user, order.id)
         clear_current_user_ordered_products()
-        flash('Ваp заказ принят и чек вышлен на почту.', 'success')
+        flash('Ваш заказ принят и чек вышлен на почту.', 'success')
         send_sales_receipt(current_user, order_products_by_current_user)
         return redirect(url_for('main.home'))
     elif request.method == 'GET':
@@ -163,7 +166,7 @@ def add_order():
 def current_orders():
     orders = current_user.orders
     order_products_by_current_user = get_current_order_products(current_user.id)
-    return render_template('current_orders.html', order_products=order_products_by_current_user, orders=orders)
+    return render_template('current_orders.html', order_products=order_products_by_current_user, orders=orders, )
 
 
 @users.route('/reset_password', methods=['GET', 'POST'])
@@ -195,6 +198,3 @@ def reset_token(token):
         flash(f'Your password has been updated! You are now able to log in.', 'success')
         return redirect(url_for('users.login'))
     return render_template('reset_token.html', title='Reset password', form=form)
-
-
-

@@ -7,8 +7,7 @@
             <fieldset class="form-group">
                 <div class="row">
                     <div class="col-10">
-                        <div class="form-group">
-                            {{ form.search_product_name.label(class="form-control-label") }}
+                        <div class="form-group pt-4">
                             {% if form.search_product_name.errors %}
                             {{ form.search_product_name(class="form-control form-control-lg is-invalid") }}
                             <div class="invalid-feedback">
@@ -62,7 +61,7 @@
             <div class="row">
                 {% for product in products %}
                 <div class="col-4">
-                    <div class="card mt-3 mb-" style="width: 251px; height:500px">
+                    <div class="card mt-2" style="width: 251px; height:500px">
                         <a href="{{ url_for('main.product_revive',product_id=product.id)  }}">
                             <img src="{{ url_for('static', filename ='food_pics/' + product.image) }}"
                              class="card-img-top food-img"

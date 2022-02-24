@@ -31,6 +31,19 @@
                 {{ form.order_date(class="form-control form-control-lg") }}
                 {% endif %}
             </div>
+            <div class="form-group">
+                {{ form.order_time.label(class="form-control-label") }}
+                {% if form.order_time.errors %}
+                {{ form.order_time(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.order_time.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.order_time(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
             <div class="form-group pt-3">
             {{ form.submit(class="btn btn-outline-info") }}
             </div>

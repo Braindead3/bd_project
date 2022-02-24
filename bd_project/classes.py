@@ -11,7 +11,7 @@ class UserHelper:
             for products in order_products_by_current_user:
                 for pr_id, product in products.items():
                     order_price += product.get("price") * product.get('amount')
-        return order_price
+        return round(order_price, 2)
 
     @staticmethod
     def current_user_ordered_products():
