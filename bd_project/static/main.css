@@ -9,7 +9,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .bg-steel {
-  background-color: #FF4500;
+  background-color: #DAA520;
 }
 
 .site-header .navbar-nav .nav-link {
@@ -69,8 +69,8 @@ a.article-title:hover {
 }
 
 .food-img {
-  height: 200px;
-  width: 100%;
+  height: 320px;
+  width: 250px;
   margin-right: 20px;
   margin-bottom: 16px;
 }
@@ -116,4 +116,30 @@ background:#FFA07A;
 .cart-btn{
 height:75px;
 width:100px;
+}
+
+.main-bg-image{
+background: url("../static/background.png");
+}
+
+.all-buttons-color{
+background:#FFDEAD;
+color:black;
+}
+
+.btn-info{
+background:#FFDEAD;
+color:black;
+border: 1px solid black;
+}
+
+.btn-outline-info{
+background: #FFDEAD;
+color: black;
+border: 1px solid black;
+}
+
+.text-color-black{
+color: black;
+font-size: 125%;
 }

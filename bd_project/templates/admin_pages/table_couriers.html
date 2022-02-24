@@ -1,13 +1,13 @@
 {% extends "admin_pages/admin.html" %}
 {% block table %}
 <body>
-<h1>Couriers</h1>
+<h1>Курьеры</h1>
 <table class="table table">
     <thead>
     <tr>
-        <th scope="col">name</th>
-        <th scope="col">phone</th>
-        <th scope="col">address</th>
+        <th scope="col">Имя</th>
+        <th scope="col">Телефон</th>
+        <th scope="col">Адрес</th>
     </tr>
     </thead>
     <tbody>
@@ -27,7 +27,7 @@
             <form method="post" action="{{ url_for('admin_couriers_table.courier_creation') }}">
                 {{ add_form.hidden_tag() }}
                 <fieldset class="form-group">
-                    <legend class="border-bottom mb-4">Add Courier</legend>
+                    <legend class="border-bottom mb-4">Добавить курьера</legend>
                     <div class="form-group">
                         {{ add_form.name_add.label(class="form-control-label") }}
                         {% if add_form.name_add.errors %}
@@ -90,7 +90,7 @@
             <form method="post" action="{{ url_for('admin_couriers_table.courier_removing') }}">
                 {{ delete_form.hidden_tag() }}
                 <fieldset class="form-group">
-                    <legend class="border-bottom mb-4">Delete Courier</legend>
+                    <legend class="border-bottom mb-4">Удалить курьера</legend>
                     <div class="form-group">
                         {{ delete_form.select_del.label(class="form-control-label") }}
                         {{ delete_form.select_del(class="form-select") }}
@@ -105,10 +105,10 @@
             <form method="post" action="">
                 {{ update_form.hidden_tag() }}
                 <fieldset class="form-group">
-                    <legend class="border-bottom mb-4">Update Courier</legend>
-                    <label class="form-control-label">Select Courier</label>
+                    <legend class="border-bottom mb-4">Обновить</legend>
+                    <label class="form-control-label">Выбирите курьера</label>
                     <select class="form-select " onchange="location = this.value;" name="forma">
-                        <option selected>Selected: {{ select_courier }}</option>
+                        <option selected>Выбранный: {{ select_courier }}</option>
                         {% for courier in couriers %}
                         <option value="{{ url_for('admin_couriers_table.courier_updating', courier_id=courier.id) }}">{{ courier.name }}</option>
                         {% endfor %}

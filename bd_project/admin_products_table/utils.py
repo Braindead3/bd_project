@@ -12,7 +12,7 @@ def save_picture(form_picture):
     picture_file_name = random_hex + file_ext
     picture_path = os.path.join(current_app.root_path, 'static/food_pics', picture_file_name)
 
-    output_size = (200, 200)
+    output_size = (250, 320)
     resized_image = Image.open(form_picture)
     resized_image.thumbnail(output_size)
     resized_image.save(picture_path)

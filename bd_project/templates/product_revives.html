@@ -2,58 +2,58 @@
 {% block content %}
 <div class="row">
     <div class="col-4">
-        <div class="card" style="width: 300px; height:400px">
-            <img src="{{ url_for('static', filename ='food_pics/' + product.image) }}"
-                 class="card-img-top food-img"
-                 alt="{{ url_for('static', filename ='food_pics/' + 'default_food.jpg') }}">
-            <div class="card-body">
-                <h5 class="card-title">{{ product.name }}</h5>
-                <p class="card-text">{{ product.description }}</p>
-                <div class="row">
-                    <div class="col-6">
-                        <h6 class="card-subtitle mb-2 text-muted">{{ product.price }} BYN</h6>
-                    </div>
-                    <div class="col-6">
-                        <h6 class="card-subtitle mb-2 text-muted">{{ product.weight }} gr.</h6>
-                    </div>
+        <img src="{{ url_for('static', filename ='food_pics/' + product.image) }}" style="width:320px; height: 460px;"
+             class="card-img-top food-img"
+             alt="{{ url_for('static', filename ='food_pics/' + 'default_food.jpg') }}">
+    </div>
+    <div class="col-8">
+        <h5 class="" style="font-size:250%">{{ product.name }}</h5>
+        <div class="row">
+            <div class="col-6">
+                <h6 class="mb-2" style="font-size:150%">{{ product.price }} BYN</h6>
+            </div>
+            <div class="col-6">
+                <h6 class="mb-2" style="font-size:150%">{{ product.weight }} gr.</h6>
+            </div>
+        </div>
+        <h4>Описание:</h4>
+        <p class="card-text" style="font-size:150%">{{ product.description }}</p>
+
+    </div>
+</div>
+<div>
+    <h1>Отзывы: </h1>
+    {% for revive in revives %}
+    <div class="container border mb-2">
+        <div>
+            <h1>{{ revive.user_id.username }}</h1>
+        </div>
+        <div class="mt-1 mb-2">
+            <span>{{ revive.review }}</span>
+        </div>
+    </div>
+    {% endfor %}
+    <form method="post" action="">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Напишите свой отзыв:</legend>
+            <div class="form-group">
+                {{ form.revive.label(class="form-control-label") }}
+                {% if form.revive.errors %}
+                {{ form.revive(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.revive.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
                 </div>
+                {% else %}
+                {{ form.revive(class="form-control form-control-lg") }}
+                {% endif %}
             </div>
-        </div>
-    </div>
-    <div class="col-7">
-        <h1>Отзывы:  </h1>
-        {% for revive in revives %}
-        <div class="container border mb-2">
-            <div>
-                <h1>{{ revive.user_id.username }}</h1>
+            <div class="form-group pt-3">
+                {{ form.submit(class="btn btn-outline-info") }}
             </div>
-            <div class="mt-1 mb-2">
-                <span>{{ revive.review }}</span>
-            </div>
-        </div>
-        {% endfor %}
-        <form method="post" action="">
-                {{ form.hidden_tag() }}
-                <fieldset class="form-group">
-                    <legend class="border-bottom mb-4">Напишите свой отзыв:</legend>
-                    <div class="form-group">
-                        {{ form.revive.label(class="form-control-label") }}
-                        {% if form.revive.errors %}
-                        {{ form.revive(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.revive.errors %}
-                            <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                        {% else %}
-                        {{ form.revive(class="form-control form-control-lg") }}
-                        {% endif %}
-                    </div>
-                    <div class="form-group pt-3">
-                        {{ form.submit(class="btn btn-outline-info") }}
-                    </div>
-                </fieldset>
-            </form>
-    </div>
+        </fieldset>
+    </form>
 </div>
 {% endblock content %}

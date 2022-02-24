@@ -59,7 +59,7 @@ def filter_products_by_category(category):
     form = SearchForm()
     products = Product.select().where(Product.category == sel_category)
     order_products_by_current_user = current_user_ordered_products()
-    return object_list('home.html', title='Home page', query=products, context_variable='products', paginate_by=10,
+    return object_list('home.html', title='Home page', query=products, context_variable='products', paginate_by=9,
                        order_products=order_products_by_current_user, form=form, categories=product_categories)
 
 
@@ -72,7 +72,7 @@ def filter_products_by_cost():
     else:
         products = Product.select().order_by(Product.price)
     order_products_by_current_user = current_user_ordered_products()
-    return object_list('home.html', title='Home page', query=products, context_variable='products', paginate_by=10,
+    return object_list('home.html', title='Home page', query=products, context_variable='products', paginate_by=9,
                        order_products=order_products_by_current_user, form=form, categories=product_categories)
 
 

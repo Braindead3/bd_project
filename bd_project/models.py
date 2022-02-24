@@ -69,7 +69,7 @@ class Categories(BaseModel):
 
 
 class Product(BaseModel):
-    name = CharField(20, unique=True, null=False)
+    name = CharField(unique=True, null=False)
     price = DoubleField(null=False)
     description = TextField(null=False)
     weight = IntegerField(null=False)

@@ -2,11 +2,12 @@
 {% block content %}
 <body>
     <select onchange="location = this.value;" class="form-select" size="1" aria-label="select example">
-        <option selected>Choose table</option>
-        <option value="{{ url_for('admin_users_table.users_table') }}">Users</option>
-        <option value="{{ url_for('admin_couriers_table.couriers_table') }}">Couriers</option>
-        <option value="{{ url_for('admin_products_table.products_table') }}">Products</option>
+        <option selected>Выбирите таблицу</option>
+        <option value="{{ url_for('admin_users_table.users_table') }}">Пользователи</option>
+        <option value="{{ url_for('admin_couriers_table.couriers_table') }}">Курьеры</option>
+        <option value="{{ url_for('admin_products_table.products_table') }}">Продукты</option>
     </select>
-    {% block table %} {% endblock table %}
+    {% block table %}
+    {% endblock table %}
 </body>
 {% endblock content %}

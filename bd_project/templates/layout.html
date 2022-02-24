@@ -22,7 +22,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
-<body>
+<body class="main-bg-image">
 <header class="site-header">
     <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
         <div class="container">
@@ -37,7 +37,8 @@
                     <a class="nav-item nav-link" href="#">О нас</a>
                 </div>
                 <!-- Navbar Right Side -->
-                {% if current_user.is_authenticated and current_user.username == 'admin' or current_user.username == 'Админ' %}
+                {% if current_user.is_authenticated and current_user.username == 'admin' or current_user.username ==
+                'Админ' %}
                 <div class="navbar-nav ms-auto">
                     <a class="nav-item nav-link" href="{{ url_for('main.admin_page') }}">Страница Админа</a>
                     <a class="nav-item nav-link" href="{{ url_for('users.logout') }}">Выйти</a>
@@ -51,7 +52,8 @@
                 {% elif session['courier'] %}
                 <div class="navbar-nav ms-auto">
                     <a class="nav-item nav-link" href="{{ url_for('couriers.all_orders') }} ">Взять заказ</a>
-                    <a class="nav-item nav-link" href=" {{ url_for('couriers.current_courier_orders') }} ">Мои заказы</a>
+                    <a class="nav-item nav-link" href=" {{ url_for('couriers.current_courier_orders') }} ">Мои
+                        заказы</a>
                     <a class="nav-item nav-link" href="{{ url_for('couriers.logout') }}">Выйти</a>
                 </div>
                 {% else %}
@@ -67,7 +69,7 @@
 </header>
 <main role="main" class="container">
     <div class="row">
-        <div class="col">
+        <div class="col-9">
             {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
             {% for category, message in messages %}
@@ -77,11 +79,12 @@
             {% endfor %}
             {% endif %}
             {% endwith %}
-            {% block content %}{% endblock %}
+            {% block content %}
+            {% endblock %}
         </div>
         {% if current_user.is_authenticated and current_user.email != 'admin@blog.com' %}
         {% if order_products %}
-        <div class="col-md-3">
+        <div class="col-3">
             <div class="content-section">
                 <h3>Корзина:</h3>
                 {% for products in order_products %}
@@ -123,12 +126,13 @@
                     <a href="{{ url_for('users.add_order') }}" class="btn-outline-dark btn cart-btn">Сделать заказ</a>
                 </div>
                 <div class="col-5">
-                    <a href="{{ url_for('users.clear_cart') }}" class="btn-outline-dark btn cart-btn" >Почистить карзину</a>
+                    <a href="{{ url_for('users.clear_cart') }}" class="btn-outline-dark btn cart-btn">Почистить
+                        карзину</a>
                 </div>
             </div>
         </div>
         {% else %}
-        <div class="col-md-3">
+        <div class="col">
             <div class="content-section">
                 <h3>Корзина:</h3>
                 <p>Ничего тут нету! Купи что нибудь!</p>
