@@ -105,7 +105,7 @@
             <form method="post" action="{{ url_for('admin_users_table.user_removing') }}">
                 {{ delete_form.hidden_tag() }}
                 <fieldset class="form-group">
-                    <legend class="border-bottom mb-4">Delete User</legend>
+                    <legend class="border-bottom mb-4">Удалить пользователя</legend>
                     <div class="form-group">
                         {{ delete_form.select_del_user.label(class="form-control-label") }}
                         {{ delete_form.select_del_user(class="form-select") }}
@@ -120,10 +120,10 @@
             <form method="post" action="">
                 {{ update_form.hidden_tag() }}
                 <fieldset class="form-group">
-                    <legend class="border-bottom mb-4">Update User</legend>
-                    <label class="form-control-label">Select User</label>
+                    <legend class="border-bottom mb-4">Изменить пользователя</legend>
+                    <label class="form-control-label">Выберите пользователя</label>
                     <select class="form-select " onchange="location = this.value;" name="forma">
-                        <option selected>Selected: {{ selected_username }}</option>
+                        <option selected>Выбранный: {{ selected_username }}</option>
                         {% for user in users %}
                         <option value="{{ url_for('admin_users_table.user_updating', user_id=user.id) }}">{{ user.username }}</option>
                         {% endfor %}

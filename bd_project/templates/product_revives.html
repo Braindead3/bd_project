@@ -33,6 +33,7 @@
             </div>
         </div>
         {% endfor %}
+        {% if not session['courier'] %}
         <form method="post" action="">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
@@ -55,5 +56,6 @@
                 </div>
             </fieldset>
         </form>
+        {% endif %}
     </div>
 {% endblock content %}

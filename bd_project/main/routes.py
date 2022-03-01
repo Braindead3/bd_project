@@ -85,7 +85,7 @@ def filter_products_by_cost_desc():
     else:
         products = Product.select().order_by(Product.price.desc())
     order_products_by_current_user = current_user_ordered_products()
-    return object_list('home.html', title='Home page', query=products, context_variable='products', paginate_by=10,
+    return object_list('home.html', title='Home page', query=products, context_variable='products', paginate_by=9,
                        order_products=order_products_by_current_user, form=form, categories=product_categories)
 
 

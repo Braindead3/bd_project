@@ -25,7 +25,7 @@ def register():
         user = User(username=form.username.data, email=form.email.data, password=hashed_password, phone=form.phone.data,
                     address=form.address.data)
         user.save()
-        flash(f'Account created for {form.username.data}!', 'success')
+        flash(f'Аккаунт создан для {form.username.data}!', 'success')
         return redirect(url_for('users.login'))
     return render_template('register.html', title='Register', form=form)
 
@@ -40,10 +40,10 @@ def login():
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
             next_page = request.args.get('next')
-            flash('You have successfully signed in to your account!', 'success')
+            flash('Вы успешно вошли в свой аккаунт!', 'success')
             return redirect(next_page) if next_page else redirect(url_for('main.home'))
         else:
-            flash('Log In unsuccessful. Please check email and password.', 'danger')
+            flash('Вход неудачен. Проверте почту и пароль.', 'danger')
     return render_template('login.html', title='Login', form=form)
 
 
@@ -56,6 +56,7 @@ def logout():
 @users.route('/account', methods=['GET', 'POST'])
 @login_required
 def account():
+    order_products_by_current_user = UserHelper.current_user_ordered_products()
     form = UpdateAccountForm()
     if form.validate_on_submit():
         updated_user = User.get_by_id(current_user.id)
@@ -64,14 +65,14 @@ def account():
         updated_user.phone = form.phone.data
         updated_user.address = form.address.data
         updated_user.save()
-        flash('Your account has been updated!', 'success')
+        flash('Данные об аккаунте были обновленны!', 'success')
         return redirect(url_for('users.account'))
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.email.data = current_user.email
         form.phone.data = current_user.phone
         form.address.data = current_user.address
-    return render_template('account.html', title='Account', form=form)
+    return render_template('account.html', title='Account', form=form, order_products=order_products_by_current_user)
 
 
 @users.route('/add_to_cart?<int:product_id>')
@@ -152,7 +153,7 @@ def add_order():
         order.save()
         add_current_ordered_products(order_products_by_current_user, order.id)
         clear_current_user_ordered_products()
-        flash('Ваш заказ принят и чек вышлен на почту.', 'success')
+        flash('Ваш заказ принят и чек выслан на почту.', 'success')
         send_sales_receipt(current_user, order_products_by_current_user)
         return redirect(url_for('main.home'))
     elif request.method == 'GET':

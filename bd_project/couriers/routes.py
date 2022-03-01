@@ -15,11 +15,11 @@ def login():
         courier = Courier.get_or_none(Courier.phone == form.phone.data)
         if courier and bcrypt.check_password_hash(courier.password, form.password.data):
             next_page = request.args.get('next')
-            flash('You have successfully signed in to your account!', 'success')
+            flash('Вы успешно вошли в свой аккаунт!', 'success')
             session['courier'] = courier.id
             return redirect(next_page) if next_page else redirect(url_for('main.home'))
         else:
-            flash('Log In unsuccessful. Please check phone and password.', 'danger')
+            flash('Вход не удался. Проверте правильность введенного телефона и пароля.', 'danger')
     return render_template('login_courier.html', title='Login', form=form)
 
 
@@ -65,5 +65,5 @@ def done_orders():
 
 @couriers.route('/all_orders/not_done_orders')
 def not_done_orders():
-    orders = Order.select().where(Order.status == 'not done')
+    orders = Order.select().where((Order.status == 'not done') & Order.courier_id)
     return render_template('current_orders.html', orders=orders)
