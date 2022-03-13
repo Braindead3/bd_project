@@ -59,11 +59,13 @@ def get_order(order_id):
 
 @couriers.route('/all_orders/done_orders')
 def done_orders():
-    orders = Order.select().where(Order.status == 'done')
+    orders = Order.select().where(
+        (Order.status == 'done') & Order.courier_id & (Order.courier_id == session['courier']))
     return render_template('current_orders.html', orders=orders)
 
 
 @couriers.route('/all_orders/not_done_orders')
 def not_done_orders():
-    orders = Order.select().where((Order.status == 'not done') & Order.courier_id)
+    orders = Order.select().where(
+        (Order.status == 'not done') & Order.courier_id & (Order.courier_id == session['courier']))
     return render_template('current_orders.html', orders=orders)
